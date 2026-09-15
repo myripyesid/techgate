@@ -1,58 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🚀 TechGate - Tienda de Productos Tecnológicos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bienvenido al repositorio oficial de TechGate, una plataforma de comercio electrónico orientada a la venta y comparación de componentes y productos tecnológicos. Este proyecto es desarrollado para la materia Arquitectura de Software utilizando el framework Laravel bajo una arquitectura monolítica.
 
-## About Laravel
+📌 Alcance del Sprint 1
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+En este primer sprint nos enfocamos en el diseño e implementación del núcleo del dominio de productos, su categorización y la lógica de compatibilidad entre componentes:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Producto (Producto): Gestión de inventario, stock, precios y ofertas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Categorías (Categorias): Organización jerárquica de productos.
 
-## Learning Laravel
+Comparador de Productos (Comparador de productos): Herramienta para comparar especificaciones técnicas y verificar armados de equipos.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Compatibilidad entre Componentes (Compatibilidad entre componentes): Evaluación de reglas de compatibilidad técnica entre distintos productos (p. ej. Socket de CPU y Placa Madre).
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+🛠️ Requisitos Previos
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Asegúrate de tener instaladas las siguientes herramientas en tu entorno local:
 
-## Agentic Development
+PHP: >= 8.2 (con extensiones pdo, mbstring, openssl, tokenizer, xml)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Composer: >= 2.x
 
-```bash
-composer require laravel/boost --dev
+Git: >= 2.x
 
-php artisan boost:install
-```
+Base de Datos: MySQL o PostgreSQL >= 8.0 / MariaDB
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+(Opcional) Node.js & NPM: >= 18.x (para compilación de assets de frontend)
 
-## Contributing
+🚀 Guía de Inicio Rápido (Entorno Local)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Sigue estos pasos para clonar e iniciar el proyecto en tu máquina local:
 
-## Code of Conduct
+1. Clonar el Repositorio
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+git clone https://github.com/TU_USUARIO/techgate.git
+cd techgate
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. Instalar Dependencias de PHP
 
-## License
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+3. Configurar el Archivo de Entorno
+
+Copia el archivo de configuración de ejemplo para crear tu archivo .env:
+
+cp .env.example .env
+
+
+Abre el archivo .env y configura los datos de conexión a tu base de datos:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=techgate_db
+DB_USERNAME=root
+DB_PASSWORD=tu_contraseña
+
+
+4. Generar la Clave de Aplicación
+
+php artisan key:generate
+
+
+5. Ejecutar Migraciones y Seeders
+
+Asegúrate de haber creado la base de datos techgate_db en tu Gestor de BD y ejecuta:
+
+php artisan migrate --seed
+
+
+6. Iniciar el Servidor de Desarrollo
+
+php artisan serve
+
+
+La aplicación estará disponible en http://127.0.0.1:8000.
+
+🌿 Convenciones y Flujo de Trabajo en Git
+
+Para mantener un historial limpio y evitar conflictos de código en el equipo, trabajamos bajo un flujo basado en ramas (Feature Branching):
+
+Reglas Principales
+
+La rama main está protegida: No se deben hacer commits directamente en main.
+
+Creación de ramas por funcionalidad: Cada nueva tarea o clase debe desarrollarse en su propia rama saliente de main.
+
+Nomenclatura de Ramas
+
+Funcionalidades/Clases: feature/nombre-de-la-funcionalidad (ej. feature/producto-model, feature/compatibilidad-service)
+
+Correcciones de errores: bugfix/descripcion-del-bug
+
+Refactorización: refactor/nombre-modulo
+
+Flujo paso a paso para desarrollar:
+
+Actualizar main e iniciar nueva rama:
+
+git checkout main
+git pull origin main
+git checkout -b feature/clase-producto
+
+
+Hacer commits periódicos y descriptivos:
+
+git add .
+git commit -m "feat: implementar modelo y migración de Producto"
+
+
+Subir la rama a GitHub:
+
+git push origin feature/clase-producto
+
+
+Crear Pull Request (PR):
+
+Ve a GitHub y abre un Pull Request hacia la rama main.
+
+Asigna al menos a un compañero del equipo como revisor (Reviewer).
+
+Una vez aprobado y pasadas las revisiones, realiza el Merge.
+
+👥 Equipo de Desarrollo
+
+Proyecto desarrollado para la asignatura de Arquitectura de Software.
