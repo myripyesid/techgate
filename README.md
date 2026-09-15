@@ -47,3 +47,14 @@ Monolito web desarrollado en **Laravel 13** para la gestión de productos, categ
 1. **Ejecutar las migraciones:**
    ```bash
    php artisan migrate
+2. **Ejecutar la suite de pruebas:**
+
+   ```bash
+   php artisan test
+3. **levantar el servidor local:**
+   ```bash
+   php artisan serve
+Las URLS son:   
+Catálogo: http://127.0.0.1:8000/products
+
+Categorías: http://127.0.0.1:8000/categories
