@@ -33,7 +33,7 @@ Sigue estos pasos para clonar e iniciar el proyecto en tu máquina local:
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/techgate.git
+git clone https://github.com/myripyesid/techgate.git
 cd techgate
 ```
 
