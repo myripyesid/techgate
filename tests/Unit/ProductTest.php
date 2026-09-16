@@ -24,7 +24,7 @@ class ProductTest extends TestCase
         $resultado = $product->reducirStock(3);
 
         $this->assertTrue($resultado);
-        $this->assertEquals(7, $product->stock);
+        $this->assertSame(7, $product->getStock());
     }
 
     public function test_no_permite_reducir_stock_insuficiente(): void
@@ -40,6 +40,6 @@ class ProductTest extends TestCase
         $resultado = $product->reducirStock(5);
 
         $this->assertFalse($resultado);
-        $this->assertEquals(2, $product->stock);
+        $this->assertSame(2, $product->getStock());
     }
 }

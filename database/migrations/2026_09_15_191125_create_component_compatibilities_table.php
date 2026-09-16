@@ -36,6 +36,7 @@ public function up(): void
      */
     public function down(): void
     {
+        Schema::dropIfExists('product_compatibilities');
         Schema::dropIfExists('component_compatibilities');
     }
 };

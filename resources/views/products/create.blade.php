@@ -26,7 +26,7 @@
             <select name="category_id" class="form-select" id="category_id" required>
                 <option value="">Seleccione una categoría</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->nombre }}</option>
+                    <option value="{{ $category->getId() }}">{{ $category->getNombre() }}</option>
                 @endforeach
             </select>
         </div>

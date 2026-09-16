@@ -13,6 +13,8 @@ public function up(): void
 {
     Schema::create('product_comparators', function (Blueprint $table) {
         $table->id();
+        // Cada usuario tiene su propio comparador (relacion 1 a 1).
+        $table->foreignId('user_id')->nullable()->unique()->constrained('users')->onDelete('cascade');
         $table->string('nombre');
         $table->string('email');
         $table->string('telefono')->nullable();
@@ -34,6 +36,7 @@ public function up(): void
      */
     public function down(): void
     {
+        Schema::dropIfExists('comparator_product');
         Schema::dropIfExists('product_comparators');
     }
 };

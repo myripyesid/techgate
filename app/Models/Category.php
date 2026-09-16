@@ -18,16 +18,58 @@ class Category extends Model
     public function mostrarDetallesCategoria(): array
     {
         return [
-            'id' => $this->id,
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
             'total_productos' => $this->products()->count(),
         ];
     }
 
     public function asociarProducto(Product $producto): bool
     {
-        $producto->category_id = $this->id;
+        $producto->setCategoryId($this->getId());
+
         return $producto->save();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Getters y setters
+    |--------------------------------------------------------------------------
+    */
+
+    public function getId(): ?int
+    {
+        return $this->getAttribute('id');
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->getAttribute('nombre');
+    }
+
+    public function setNombre(string $nombre): static
+    {
+        $this->setAttribute('nombre', $nombre);
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->getAttribute('descripcion');
+    }
+
+    public function setDescripcion(?string $descripcion): static
+    {
+        $this->setAttribute('descripcion', $descripcion);
+
+        return $this;
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    public function getProductos()
+    {
+        return $this->products()->get();
     }
 }
