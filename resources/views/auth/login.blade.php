@@ -19,7 +19,7 @@
 
                         <div class="mb-3">
                             <label for="contrasena" class="form-label">Contraseña</label>
-                            <input type="password" name="contraseña" id="contrasena" class="form-control" required>
+                            <input type="password" name="password" id="contrasena" class="form-control" required>
                         </div>
 
                         <div class="form-check mb-3">

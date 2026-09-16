@@ -59,9 +59,10 @@ class User extends Authenticatable
         return 'contraseña';
     }
 
-    public function getAuthPassword(): string
+// Solo si tu columna se llama diferente en la BD
+    public function getAuthPassword()
     {
-        return (string) $this->getAttribute('contraseña');
+        return $this->password; 
     }
 
     /*
@@ -118,13 +119,13 @@ class User extends Authenticatable
      * Valida las credenciales y, si son correctas, deja al usuario
      * autenticado en la sesion.
      */
-    public static function iniciarSesion(string $email, string $contrasena, bool $recordar = false): bool
-    {
-        return Auth::attempt(
-            ['email' => $email, 'password' => $contrasena],
-            $recordar
-        );
-    }
+public static function iniciarSesion(string $email, string $password, bool $remember = false): bool
+{
+    return Auth::attempt([
+        'email' => $email,
+        'password' => $password,
+    ], $remember);
+}
 
     /**
      * cerrarSesion()
