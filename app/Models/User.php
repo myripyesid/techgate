@@ -26,10 +26,10 @@ class User extends Authenticatable
     public const ROL_ADMINISTRADOR = 'administrador';
 
     protected $fillable = [
-        'nombre',
+        'name',
         'email',
         'telefono',
-        'contraseña',
+        'password',
         'rol',
     ];
 
@@ -192,17 +192,17 @@ class User extends Authenticatable
         return $this->getAttribute('id');
     }
 
-    public function getNombre(): ?string
-    {
-        return $this->getAttribute('nombre');
-    }
+public function getNombre(): ?string
+{
+    return $this->getAttribute('name'); // Lee la columna 'name'
+}
 
-    public function setNombre(string $nombre): static
-    {
-        $this->setAttribute('nombre', $nombre);
+public function setNombre(string $nombre): static
+{
+    $this->setAttribute('name', $nombre); // Escribe en la columna 'name'
 
-        return $this;
-    }
+    return $this;
+}
 
     public function getEmail(): ?string
     {
