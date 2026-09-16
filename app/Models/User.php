@@ -34,14 +34,14 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'contraseña',
+        'password',
         'remember_token',
     ];
 
     protected function casts(): array
     {
         return [
-            'contraseña' => 'hashed',
+            'password' => 'hashed',
         ];
     }
 
@@ -142,9 +142,15 @@ class User extends Authenticatable
      */
     public function actualizarPerfil(array $nuevosDatos): bool
     {
+        // Si la solicitud envía 'nombre', la remapeamos a 'name'
+        if (isset($nuevosDatos['nombre'])) {
+            $nuevosDatos['name'] = $nuevosDatos['nombre'];
+            unset($nuevosDatos['nombre']);
+        }
+
         $permitidos = array_intersect_key(
             $nuevosDatos,
-            array_flip(['nombre', 'email', 'telefono'])
+            array_flip(['name', 'email', 'telefono'])
         );
 
         if ($permitidos === []) {
@@ -153,7 +159,6 @@ class User extends Authenticatable
 
         return $this->fill($permitidos)->save();
     }
-
     /**
      * cambiarContrasena(nuevaContrasena)
      */
@@ -234,7 +239,7 @@ public function setNombre(string $nombre): static
      */
     public function setContrasena(string $contrasena): static
     {
-        $this->setAttribute('contraseña', $contrasena); // el cast la hashea
+        $this->setAttribute('password', $contrasena);
 
         return $this;
     }

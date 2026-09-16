@@ -55,40 +55,27 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-                'nombre' => 'required|string|max:255', // Validamos 'nombre'
-                'email' => 'required|string|email|max:255|unique:users',
-                'telefono' => 'nullable|string',
-                'contraseña' => 'required|string|min:8',
-            ]);
+ public function register(Request $request)
+{
+    $validated = $request->validate([
+        'nombre'     => 'required|string|max:255',
+        'email'      => 'required|string|email|max:255|unique:users',
+        'telefono'   => 'nullable|string',
+        'contraseña' => 'required|string|min:8',
+    ]);
 
-            $user = User::create([
-                'name' => $validated['nombre'], // Asignamos 'nombre' al campo 'name' de la BD
-                'email' => $validated['email'],
-                'telefono' => $request->telefono,
-                'password' => Hash::make($validated['contraseña']),
-                'rol' => 'usuario',
-            ]);
-            
-        $user->save();
+    $user = User::create([
+        'name'     => $validated['nombre'],
+        'email'    => $validated['email'],
+        'telefono' => $validated['telefono'],
+        'password' => Hash::make($validated['contraseña']),
+        'rol'      => User::ROL_USUARIO,
+    ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+    Auth::login($user);
+    $request->session()->regenerate();
 
-        return redirect()->route('products.index')
-            ->with('success', 'Cuenta creada correctamente. ¡Bienvenido a TechGate!');
-    }
-
-    public function logout(Request $request)
-    {
-        // Operacion cerrarSesion() de la clase Usuario.
-        $request->user()->cerrarSesion();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login')->with('success', 'Sesión cerrada.');
-    }
+    return redirect()->route('products.index')
+        ->with('success', 'Cuenta creada correctamente. ¡Bienvenido a TechGate!');
+}
 }

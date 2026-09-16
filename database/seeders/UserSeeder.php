@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -12,20 +13,20 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@techgate.com'],
             [
-                'nombre' => 'Administrador TechGate',
+                'name'     => 'Administrador TechGate',
                 'telefono' => '3000000000',
-                'contraseña' => 'admin1234',
-                'rol' => User::ROL_ADMINISTRADOR,
+                'password' => Hash::make('admin1234'),
+                'rol'      => User::ROL_ADMINISTRADOR,
             ]
         );
 
         User::updateOrCreate(
             ['email' => 'usuario@techgate.com'],
             [
-                'nombre' => 'Usuario de prueba',
+                'name'     => 'Usuario de prueba',
                 'telefono' => '3001111111',
-                'contraseña' => 'usuario1234',
-                'rol' => User::ROL_USUARIO,
+                'password' => Hash::make('usuario1234'),
+                'rol'      => User::ROL_USUARIO,
             ]
         );
     }
