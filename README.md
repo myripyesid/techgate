@@ -53,7 +53,7 @@ Follow these steps to run TechGate locally after cloning the repository.
 ### 1. Clone the repository
 
 ```bash
-git clone <[REPOSITORY_URL](https://github.com/myripyesid/techgate.git)>
+git clone https://github.com/myripyesid/techgate.git
 cd techgate
 ```
 
