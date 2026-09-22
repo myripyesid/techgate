@@ -44,17 +44,182 @@ Monolito web desarrollado en **Laravel 13** para la gestión de productos, categ
 
 ## ⚡ Instrucciones de Ejecución Local
 
-1. **Ejecutar las migraciones:**
-   ```bash
-   php artisan migrate
-2. **Ejecutar la suite de pruebas:**
+# TechGate
 
-   ```bash
-   php artisan test
-3. **levantar el servidor local:**
-   ```bash
-   php artisan serve
-Las URLS son:   
-Catálogo: http://127.0.0.1:8000/products
+## Installation and Setup
 
-Categorías: http://127.0.0.1:8000/categories
+Follow these steps to run TechGate locally after cloning the repository.
+
+### 1. Clone the repository
+
+```bash
+git clone <REPOSITORY_URL>
+cd techgate
+```
+
+### 2. Install PHP dependencies
+
+Install all Laravel dependencies using Composer:
+
+```bash
+composer install
+```
+
+### 3. Configure the environment
+
+Create the `.env` file from the example configuration:
+
+```bash
+copy .env.example .env
+```
+
+> **Note:** On Linux/macOS, use:
+>
+> ```bash
+> cp .env.example .env
+> ```
+
+### 4. Generate the application key
+
+Generate Laravel's application encryption key:
+
+```bash
+php artisan key:generate
+```
+
+### 5. Clear cached configuration
+
+Clear Laravel's configuration cache:
+
+```bash
+php artisan config:clear
+```
+
+### 6. Create the SQLite database
+
+TechGate uses SQLite for its database.
+
+Create the database file:
+
+```bash
+New-Item database/database.sqlite -ItemType File
+```
+
+> **Linux/macOS:**
+>
+> ```bash
+> touch database/database.sqlite
+> ```
+
+### 7. Run database migrations
+
+Create the database tables:
+
+```bash
+php artisan migrate
+```
+
+### 8. Populate the database
+
+Run the database seeders to create the required initial data:
+
+```bash
+php artisan db:seed
+```
+
+### 9. Clear the application cache
+
+Clear the application cache after configuring the database:
+
+```bash
+php artisan cache:clear
+```
+
+### 10. Start the development server
+
+Run the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+The application should now be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+## Complete Setup
+
+For convenience, the complete setup sequence is:
+
+```bash
+composer install
+copy .env.example .env
+php artisan key:generate
+php artisan config:clear
+New-Item database/database.sqlite -ItemType File
+php artisan migrate
+php artisan db:seed
+php artisan cache:clear
+php artisan serve
+```
+
+If you are using **Linux/macOS**, replace the Windows-specific commands with:
+
+```bash
+cp .env.example .env
+touch database/database.sqlite
+```
+
+## Requirements
+
+Before installing TechGate, make sure you have the following installed:
+
+* PHP
+* Composer
+* SQLite
+* Git
+
+Make sure your PHP version is compatible with the Laravel version used by this project.
+
+## Troubleshooting
+
+### Database file does not exist
+
+If Laravel reports:
+
+```text
+Database file at path [...] database.sqlite does not exist.
+```
+
+Make sure the SQLite database file has been created:
+
+```bash
+New-Item database/database.sqlite -ItemType File
+```
+
+Then run:
+
+```bash
+php artisan migrate
+```
+
+### Configuration problems
+
+If changes to `.env` do not seem to take effect, clear the configuration cache:
+
+```bash
+php artisan config:clear
+```
+
+### Application cache problems
+
+You can clear the application cache with:
+
+```bash
+php artisan cache:clear
+```
+
