@@ -1,17 +1,15 @@
 <?php
+// Autor: Santiago
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Clase "Carrito de compras" del diagrama de clases.
- *
- * Atributos: id, fechaCreacion, estado, producto(s).
- * Operaciones: agregarProducto(), removerProducto(), calcularSubtotal(),
- *              vaciarCarrito().
- */
+// Clase "Carrito de compras" del diagrama de clases.
+// Atributos: id, fechaCreacion, estado, producto(s).
+// Operaciones: agregarProducto(), removerProducto(), calcularSubtotal(),
+// vaciarCarrito().
 class Cart extends Model
 {
     use HasFactory;
@@ -29,11 +27,7 @@ class Cart extends Model
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relaciones
-    |--------------------------------------------------------------------------
-    */
+    // Relaciones
 
     public function user()
     {
@@ -57,18 +51,11 @@ class Cart extends Model
         return $this->hasOne(Order::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Operaciones del diagrama
-    |--------------------------------------------------------------------------
-    */
+    // Operaciones del diagrama
 
-    /**
-     * agregarProducto(Producto)
-     *
-     * Si el producto ya esta en el carrito suma la cantidad. Devuelve false
-     * si no hay stock suficiente para la cantidad solicitada.
-     */
+    // agregarProducto(Producto)
+    // Si el producto ya esta en el carrito suma la cantidad. Devuelve false
+    // si no hay stock suficiente para la cantidad solicitada.
     public function agregarProducto(Product $producto, int $cantidad = 1): bool
     {
         if ($cantidad < 1) {
@@ -98,9 +85,7 @@ class Cart extends Model
         return true;
     }
 
-    /**
-     * Cambia la cantidad de un producto ya presente en el carrito.
-     */
+    // Cambia la cantidad de un producto ya presente en el carrito.
     public function actualizarCantidad(Product $producto, int $cantidad): bool
     {
         $item = $this->items()->where('product_id', $producto->getId())->first();
@@ -122,17 +107,13 @@ class Cart extends Model
         return $item->save();
     }
 
-    /**
-     * removerProducto(Producto)
-     */
+    // removerProducto(Producto)
     public function removerProducto(Product $producto): bool
     {
         return $this->items()->where('product_id', $producto->getId())->delete() > 0;
     }
 
-    /**
-     * calcularSubtotal()
-     */
+    // calcularSubtotal()
     public function calcularSubtotal(): float
     {
         return (float) $this->items->sum(
@@ -140,20 +121,14 @@ class Cart extends Model
         );
     }
 
-    /**
-     * vaciarCarrito()
-     */
+    // vaciarCarrito()
     public function vaciarCarrito(): void
     {
         $this->items()->delete();
         $this->load('items');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Utilidades
-    |--------------------------------------------------------------------------
-    */
+    // Utilidades
 
     public function estaVacio(): bool
     {
@@ -165,9 +140,7 @@ class Cart extends Model
         return (int) $this->items()->sum('cantidad');
     }
 
-    /**
-     * Devuelve el carrito activo del usuario, creandolo si no existe.
-     */
+    // Devuelve el carrito activo del usuario, creandolo si no existe.
     public static function activoPara(User $usuario): self
     {
         return self::firstOrCreate(
@@ -181,11 +154,7 @@ class Cart extends Model
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -244,13 +213,13 @@ class Cart extends Model
         return $this->setUserId($usuario->getId());
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, CartItem> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, CartItem>
     public function getItems()
     {
         return $this->items;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Product>
     public function getProductos()
     {
         return $this->products()->get();

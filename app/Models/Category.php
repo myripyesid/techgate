@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,11 +33,7 @@ class Category extends Model
         return $producto->save();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -67,7 +64,7 @@ class Category extends Model
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Product>
     public function getProductos()
     {
         return $this->products()->get();

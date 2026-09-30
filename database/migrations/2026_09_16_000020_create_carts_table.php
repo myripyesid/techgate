@@ -1,4 +1,5 @@
 <?php
+// Autor: Santiago
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,13 +7,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Tabla "Carrito de compras" del diagrama de clases.
-     * Atributos: id, fechaCreacion, estado, producto(s).
-     *
-     * La relacion con productos se resuelve con la tabla cart_items,
-     * que ademas guarda la cantidad y el precio al momento de agregar.
-     */
+    // Tabla "Carrito de compras" del diagrama de clases.
+    // Atributos: id, fechaCreacion, estado, producto(s).
+    // La relacion con productos se resuelve con la tabla cart_items,
+    // que ademas guarda la cantidad y el precio al momento de agregar.
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {

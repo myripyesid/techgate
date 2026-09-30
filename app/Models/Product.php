@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace App\Models;
 
@@ -58,11 +59,7 @@ class Product extends Model
         return $this->getPrecio();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -135,9 +132,7 @@ class Product extends Model
         return $this->setCategoryId($categoria->getId());
     }
 
-    /**
-     * Nombre de la categoria, listo para mostrar en las vistas.
-     */
+    // Nombre de la categoria, listo para mostrar en las vistas.
     public function getNombreCategoria(): string
     {
         return $this->getCategoria()?->getNombre() ?? 'N/A';

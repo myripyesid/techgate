@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace App\Http\Controllers;
 
@@ -6,13 +7,10 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-/**
- * Catalogo de productos.
- *
- * index() lo ve cualquier usuario autenticado.
- * create/store/edit/update/destroy son EXCLUSIVOS del administrador
- * (se protegen con el middleware "admin" en routes/web.php).
- */
+// Catalogo de productos.
+// index() lo ve cualquier usuario autenticado.
+// create/store/edit/update/destroy son EXCLUSIVOS del administrador
+// (se protegen con el middleware "admin" en routes/web.php).
 class ProductController extends Controller
 {
     public function index(Request $request)
