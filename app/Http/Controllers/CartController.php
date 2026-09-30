@@ -1,14 +1,13 @@
 <?php
+// Autor: Santiago
 
 namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-/**
- * Carrito de compras. Exclusivo de usuarios autenticados: cada quien
- * opera sobre su propio carrito activo.
- */
+// Carrito de compras. Exclusivo de usuarios autenticados: cada quien
+// opera sobre su propio carrito activo.
 class CartController extends Controller
 {
     public function index(Request $request)

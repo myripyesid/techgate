@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,11 +62,9 @@ class ComponentCompatibility extends Model
         return null;
     }
 
-    /**
-     * Infiere el "tipo" de un producto a partir de palabras clave en su
-     * nombre (procesador, tarjeta grafica, smartphone, televisor, etc).
-     * Devuelve null si no se reconoce ningun tipo conocido.
-     */
+    // Infiere el "tipo" de un producto a partir de palabras clave en su
+    // nombre (procesador, tarjeta grafica, smartphone, televisor, etc).
+    // Devuelve null si no se reconoce ningun tipo conocido.
     private function obtenerTipoProducto(Product $producto): ?string
     {
         $nombre = mb_strtolower((string) $producto->getNombre());
@@ -120,11 +119,7 @@ class ComponentCompatibility extends Model
             ->first();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {

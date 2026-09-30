@@ -1,3 +1,4 @@
+{{-- Autor: Santiago --}}
 @extends('layouts.app')
 
 @section('content')

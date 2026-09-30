@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -15,11 +16,7 @@ Route::get('/', function () {
     return redirect()->route('products.index');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Autenticacion (solo invitados)
-|--------------------------------------------------------------------------
-*/
+// Autenticacion (solo invitados)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -31,11 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-/*
-|--------------------------------------------------------------------------
-| Zona autenticada (usuario y administrador)
-|--------------------------------------------------------------------------
-*/
+// Zona autenticada (usuario y administrador)
 Route::middleware('auth')->group(function () {
 
     // Catalogo (solo lectura para el usuario)
@@ -47,13 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/perfil', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/perfil/contrasena', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    /*
-    |----------------------------------------------------------------------
-    | Funciones exclusivas del USUARIO
-    |----------------------------------------------------------------------
-    | Carrito de compras, pedidos, formas de pago, comparador de
-    | componentes y verificacion de compatibilidad.
-    */
+    // Funciones exclusivas del USUARIO
+    // Carrito de compras, pedidos, formas de pago, comparador de
+    // componentes y verificacion de compatibilidad.
 
     // Carrito de compras
     Route::get('/carrito', [CartController::class, 'index'])->name('cart.index');
@@ -84,13 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/compatibilidad', [ComponentCompatibilityController::class, 'index'])->name('compatibility.index');
     Route::post('/compatibilidad/verificar', [ProductComparatorController::class, 'checkCompatibility'])->name('compatibility.check');
 
-    /*
-    |----------------------------------------------------------------------
-    | Funciones exclusivas del ADMINISTRADOR
-    |----------------------------------------------------------------------
-    | Alta, edicion y baja de productos y categorias, y gestion de
-    | todos los pedidos de la tienda.
-    */
+    // Funciones exclusivas del ADMINISTRADOR
+    // Alta, edicion y baja de productos y categorias, y gestion de
+    // todos los pedidos de la tienda.
     Route::middleware('admin')->group(function () {
         Route::get('/productos/nuevo', [ProductController::class, 'create'])->name('products.create');
         Route::post('/productos', [ProductController::class, 'store'])->name('products.store');

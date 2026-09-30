@@ -1,4 +1,5 @@
 <?php
+// Autor: Santiago
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,10 +7,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Tabla "Pedido" del diagrama de clases.
-     * Atributos: id, fecha, estado, total.
-     */
+    // Tabla "Pedido" del diagrama de clases.
+    // Atributos: id, fecha, estado, total.
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {

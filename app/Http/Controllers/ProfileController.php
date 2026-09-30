@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 
 namespace App\Http\Controllers;
 
@@ -6,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Perfil del usuario: actualizarPerfil() y cambiarContrasena().
- */
+// Perfil del usuario: actualizarPerfil() y cambiarContrasena().
 class ProfileController extends Controller
 {
     public function edit(Request $request)

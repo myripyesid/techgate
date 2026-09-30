@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 
 namespace App\Models;
 
@@ -10,16 +11,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * Clase "Usuario" del diagrama de clases.
- *
- * Atributos: id, nombre, email, telefono, contraseña (+ rol).
- * Operaciones: iniciarSesion(), cerrarSesion(), actualizarPerfil(),
- *              cambiarContrasena().
- */
+// Clase "Usuario" del diagrama de clases.
+// Atributos: id, nombre, email, telefono, contraseña (+ rol).
+// Operaciones: iniciarSesion(), cerrarSesion(), actualizarPerfil(),
+// cambiarContrasena().
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
+    // @use HasFactory<UserFactory>
     use HasFactory, Notifiable;
 
     public const ROL_USUARIO = 'usuario';
@@ -34,41 +32,34 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'contraseña',
+        'password',
         'remember_token',
     ];
 
     protected function casts(): array
     {
         return [
-            'contraseña' => 'hashed',
+            'password' => 'hashed',
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Integracion con el sistema de autenticacion de Laravel
-    |--------------------------------------------------------------------------
-    | La columna de la contraseña se llama "contraseña" (segun el diagrama)
-    | en vez del "password" por defecto, por lo que hay que indicarselo al
-    | guard de autenticacion.
-    */
+    // Integracion con el sistema de autenticacion de Laravel
+    // La columna de la contraseña se llama "contraseña" (segun el diagrama)
+    // en vez del "password" por defecto, por lo que hay que indicarselo al
+    // guard de autenticacion.
 
     public function getAuthPasswordName(): string
     {
         return 'contraseña';
     }
 
-    public function getAuthPassword(): string
+// Solo si tu columna se llama diferente en la BD
+    public function getAuthPassword()
     {
-        return (string) $this->getAttribute('contraseña');
+        return $this->password; 
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relaciones
-    |--------------------------------------------------------------------------
-    */
+    // Relaciones
 
     public function carts()
     {
@@ -90,11 +81,7 @@ class User extends Authenticatable
         return $this->hasOne(ProductComparator::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    */
+    // Roles
 
     public function esAdministrador(): bool
     {
@@ -106,45 +93,39 @@ class User extends Authenticatable
         return $this->getRol() === self::ROL_USUARIO;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Operaciones del diagrama
-    |--------------------------------------------------------------------------
-    */
+    // Operaciones del diagrama
 
-    /**
-     * iniciarSesion(email, contrasena)
-     *
-     * Valida las credenciales y, si son correctas, deja al usuario
-     * autenticado en la sesion.
-     */
-    public static function iniciarSesion(string $email, string $contrasena, bool $recordar = false): bool
-    {
-        return Auth::attempt(
-            ['email' => $email, 'password' => $contrasena],
-            $recordar
-        );
-    }
+    // iniciarSesion(email, contrasena)
+    // Valida las credenciales y, si son correctas, deja al usuario
+    // autenticado en la sesion.
+public static function iniciarSesion(string $email, string $password, bool $remember = false): bool
+{
+    return Auth::attempt([
+        'email' => $email,
+        'password' => $password,
+    ], $remember);
+}
 
-    /**
-     * cerrarSesion()
-     */
+    // cerrarSesion()
     public function cerrarSesion(): void
     {
         Auth::logout();
     }
 
-    /**
-     * actualizarPerfil(nuevosDatos)
-     *
-     * Solo permite modificar datos de perfil; nunca el rol ni la
-     * contraseña (para eso existe cambiarContrasena).
-     */
+    // actualizarPerfil(nuevosDatos)
+    // Solo permite modificar datos de perfil; nunca el rol ni la
+    // contraseña (para eso existe cambiarContrasena).
     public function actualizarPerfil(array $nuevosDatos): bool
     {
+        // Si la solicitud envía 'nombre', la remapeamos a 'name'
+        if (isset($nuevosDatos['nombre'])) {
+            $nuevosDatos['name'] = $nuevosDatos['nombre'];
+            unset($nuevosDatos['nombre']);
+        }
+
         $permitidos = array_intersect_key(
             $nuevosDatos,
-            array_flip(['nombre', 'email', 'telefono'])
+            array_flip(['name', 'email', 'telefono'])
         );
 
         if ($permitidos === []) {
@@ -153,10 +134,7 @@ class User extends Authenticatable
 
         return $this->fill($permitidos)->save();
     }
-
-    /**
-     * cambiarContrasena(nuevaContrasena)
-     */
+    // cambiarContrasena(nuevaContrasena)
     public function cambiarContrasena(string $nuevaContrasena): bool
     {
         $this->setContrasena($nuevaContrasena);
@@ -165,27 +143,19 @@ class User extends Authenticatable
         return $this->save();
     }
 
-    /**
-     * Comprueba si una contraseña en texto plano corresponde a la del usuario.
-     */
+    // Comprueba si una contraseña en texto plano corresponde a la del usuario.
     public function verificarContrasena(string $contrasena): bool
     {
         return Hash::check($contrasena, $this->getAuthPassword());
     }
 
-    /**
-     * Devuelve el carrito activo del usuario, creandolo si no existe.
-     */
+    // Devuelve el carrito activo del usuario, creandolo si no existe.
     public function carritoActivo(): Cart
     {
         return Cart::activoPara($this);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -228,13 +198,11 @@ public function setNombre(string $nombre): static
         return $this;
     }
 
-    /**
-     * No existe getContrasena(): la contraseña solo se escribe, nunca se lee
-     * en texto plano. Para compararla se usa verificarContrasena().
-     */
+    // No existe getContrasena(): la contraseña solo se escribe, nunca se lee
+    // en texto plano. Para compararla se usa verificarContrasena().
     public function setContrasena(string $contrasena): static
     {
-        $this->setAttribute('contraseña', $contrasena); // el cast la hashea
+        $this->setAttribute('password', $contrasena);
 
         return $this;
     }
@@ -255,13 +223,13 @@ public function setNombre(string $nombre): static
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Order> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Order>
     public function getPedidos()
     {
         return $this->orders()->get();
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, PaymentMethod> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, PaymentMethod>
     public function getFormasPago()
     {
         return $this->paymentMethods()->get();
