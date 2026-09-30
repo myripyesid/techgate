@@ -1,4 +1,5 @@
 <?php
+// Autor: Santiago
 
 namespace App\Http\Controllers;
 
@@ -6,12 +7,9 @@ use App\Models\Order;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 
-/**
- * Pedidos del usuario autenticado.
- *
- * El flujo es: carrito -> checkout -> Order::crearDesdeCarrito()
- * -> procesarPedido() (cobra y descuenta stock) -> factura.
- */
+// Pedidos del usuario autenticado.
+// El flujo es: carrito -> checkout -> Order::crearDesdeCarrito()
+// -> procesarPedido() (cobra y descuenta stock) -> factura.
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -34,9 +32,7 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Crea el pedido a partir del carrito activo y lo procesa.
-     */
+    // Crea el pedido a partir del carrito activo y lo procesa.
     public function store(Request $request)
     {
         $datos = $request->validate([
@@ -85,9 +81,7 @@ class OrderController extends Controller
         return back()->with('success', 'Pedido cancelado.');
     }
 
-    /**
-     * Cambio de estado del pedido: solo el administrador.
-     */
+    // Cambio de estado del pedido: solo el administrador.
     public function updateStatus(Request $request, Order $order)
     {
         $datos = $request->validate([
@@ -101,9 +95,7 @@ class OrderController extends Controller
         return back()->with('success', 'Estado del pedido actualizado.');
     }
 
-    /**
-     * Listado de todos los pedidos (administrador).
-     */
+    // Listado de todos los pedidos (administrador).
     public function adminIndex()
     {
         $pedidos = Order::with('user', 'items', 'paymentMethod')->latest('fecha')->get();

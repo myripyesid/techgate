@@ -1,4 +1,5 @@
 <?php
+// Autor: Santiago
 
 namespace App\Http\Controllers;
 
@@ -6,9 +7,7 @@ use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Formas de pago del usuario autenticado.
- */
+// Formas de pago del usuario autenticado.
 class PaymentMethodController extends Controller
 {
     public function index(Request $request)

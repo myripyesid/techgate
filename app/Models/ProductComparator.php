@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace App\Models;
 
@@ -47,10 +48,8 @@ class ProductComparator extends Model
         });
     }
 
-    /**
-     * Verifica, par por par, si los productos agregados al comparador
-     * son compatibles entre si.
-     */
+    // Verifica, par por par, si los productos agregados al comparador
+    // son compatibles entre si.
     public function verificarArmado(): array
     {
         $productos = $this->products()->get();
@@ -75,10 +74,8 @@ class ProductComparator extends Model
         return $resultado;
     }
 
-    /**
-     * Obtiene (o crea) el comparador que pertenece a un usuario.
-     * Cada usuario tiene el suyo (relacion 1 a 1).
-     */
+    // Obtiene (o crea) el comparador que pertenece a un usuario.
+    // Cada usuario tiene el suyo (relacion 1 a 1).
     public static function paraUsuario(User $usuario): self
     {
         return self::firstOrCreate(
@@ -92,19 +89,13 @@ class ProductComparator extends Model
         );
     }
 
-    /**
-     * Vacia el comparador.
-     */
+    // Vacia el comparador.
     public function vaciar(): void
     {
         $this->products()->detach();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -166,7 +157,7 @@ class ProductComparator extends Model
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Product>
     public function getProductos()
     {
         return $this->products()->get();
