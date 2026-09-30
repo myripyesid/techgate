@@ -1,3 +1,4 @@
+{{-- Autor: Marbin --}}
 @extends('layouts.app')
 
 @section('content')

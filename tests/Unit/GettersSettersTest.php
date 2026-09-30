@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace Tests\Unit;
 
@@ -10,10 +11,8 @@ use App\Models\User;
 use InvalidArgumentException;
 use Tests\TestCase;
 
-/**
- * Comprueba que los getters y setters de los modelos funcionen y que
- * los setters validen los datos antes de asignarlos.
- */
+// Comprueba que los getters y setters de los modelos funcionen y que
+// los setters validen los datos antes de asignarlos.
 class GettersSettersTest extends TestCase
 {
     public function test_setters_de_producto_son_encadenables(): void
