@@ -1,14 +1,13 @@
 <?php
+// Autor: Santiago
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Linea del carrito de compras: relaciona un Carrito con un Producto
- * y guarda la cantidad y el precio al momento de agregarlo.
- */
+// Linea del carrito de compras: relaciona un Carrito con un Producto
+// y guarda la cantidad y el precio al momento de agregarlo.
 class CartItem extends Model
 {
     use HasFactory;
@@ -38,11 +37,7 @@ class CartItem extends Model
         return (float) $this->getAttribute('precio_unitario') * (int) $this->getAttribute('cantidad');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -109,9 +104,7 @@ class CartItem extends Model
         return $this->calcularSubtotal();
     }
 
-    /**
-     * Nombre del producto listo para mostrar (aunque haya sido eliminado).
-     */
+    // Nombre del producto listo para mostrar (aunque haya sido eliminado).
     public function getNombreProducto(): string
     {
         return $this->getProducto()?->getNombre() ?? 'Producto eliminado';

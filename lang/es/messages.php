@@ -1,0 +1,165 @@
+<?php
+// Traducciones en español (idioma por defecto).
+// Todo texto visible de la aplicacion pasa por LANG (__('messages.clave')).
+
+return [
+    // Generales / marca
+    'brand_tagline' => 'Tu tienda de tecnología',
+    'app_title' => 'TechGate - Tienda de Tecnología',
+
+    // Barra superior
+    'topbar_shipping' => 'Envíos a todo Colombia',
+    'topbar_secure' => 'Compras seguras',
+    'topbar_warranty' => 'Tecnología con garantía',
+
+    // Cabecera / navegación
+    'search_placeholder' => '¿Qué estás buscando?',
+    'search' => 'Buscar',
+    'login' => 'Iniciar sesión',
+    'register' => 'Registrarse',
+    'logout' => 'Cerrar sesión',
+    'cart' => 'Carrito',
+    'role_admin' => 'Admin',
+    'role_user' => 'Usuario',
+
+    // Menú de usuario
+    'menu_personal_data' => 'Datos personales',
+    'menu_my_orders' => 'Mis pedidos',
+    'menu_payment' => 'Forma de pago',
+
+    // Navegación principal
+    'nav_catalog' => 'Catálogo',
+    'nav_categories' => 'Categorías',
+    'nav_comparator' => 'Comparador',
+    'nav_builder' => 'Arma tu PC',
+    'nav_add_product' => '+ Producto',
+    'nav_add_category' => '+ Categoría',
+    'nav_store_orders' => 'Pedidos de la tienda',
+    'nav_allied_products' => 'Productos aliados',
+
+    // Idiomas
+    'lang_spanish' => 'Español',
+    'lang_english' => 'English',
+    'language' => 'Idioma',
+
+    // Catálogo / productos
+    'hero_title' => 'Tecnología para todos',
+    'hero_subtitle' => 'Componentes de PC, celulares, televisores y más. Compara y verifica compatibilidad antes de comprar.',
+    'explore_by_category' => 'Explora por categoría',
+    'new_product' => '+ Nuevo producto',
+    'results_for' => 'Resultados para',
+    'products' => 'Productos',
+    'all' => 'Todas',
+    'featured_in' => 'Destacados en',
+    'see_more' => 'Ver más',
+    'see_more_in' => 'Ver más en',
+    'no_results' => 'No hay productos que coincidan con la búsqueda.',
+    'view_full_catalog' => 'Ver todo el catálogo',
+    'reference' => 'Referencia',
+    'out_of_stock' => 'Agotado',
+    'price_tbd' => 'Precio por confirmar',
+    'stock' => 'Stock',
+    'add' => 'Agregar',
+    'compare' => 'Comparar',
+    'edit' => 'Editar',
+    'delete' => 'Eliminar',
+    'confirm_delete_product' => '¿Eliminar este producto?',
+    'add_to_cart' => 'Agregar al carrito',
+
+    // Comparador
+    'comparator_title' => 'Comparador de productos',
+    'comparator_subtitle' => 'Compara especificaciones, rendimiento estimado y compatibilidad como en las webs especializadas.',
+    'direct_comparison' => 'Comparación directa',
+    'direct_comparison_help' => 'Elige dos productos de la misma categoría.',
+    'product_a' => 'Producto A',
+    'product_b' => 'Producto B',
+    'select_option' => 'Selecciona…',
+    'best_in_specs' => 'Mejor en specs',
+    'performance_index' => 'Índice de rendimiento',
+    'performance_estimated' => 'Rendimiento estimado',
+    'global_index_help' => 'Índice global ponderado (0–100).',
+    'profile_by_feature' => 'Perfil por característica',
+    'profile_help' => 'Cada eje normalizado contra el resto de la categoría.',
+    'comparison_by_spec' => 'Comparación por especificación',
+    'comparison_by_spec_help' => 'Puntaje 0–100 de cada producto en cada característica comparable.',
+    'detailed_specs' => 'Especificaciones detalladas',
+    'feature' => 'Característica',
+    'my_comparison_list' => 'Mi lista de comparación',
+    'add_products' => 'Agregar productos',
+    'in_comparator' => 'En el comparador',
+    'empty_comparator' => 'Todavía no agregaste productos.',
+    'clear' => 'Vaciar',
+    'remove' => 'Quitar',
+    'compatibility_list_title' => 'Compatibilidad entre los productos de la lista',
+    'add_two_to_check' => 'Agrega al menos dos productos para verificar compatibilidad.',
+    'product' => 'Producto',
+    'status' => 'Estado',
+    'reason' => 'Motivo',
+    'equipment_consumption' => 'Consumo del equipo',
+    'builder_cta_title' => '¿Quieres armar una PC completa?',
+    'builder_cta_subtitle' => 'Elige cada componente, valida la compatibilidad en vivo y agrégalos al carrito de una sola vez.',
+    'go_to_builder' => 'Ir a “Arma tu PC”',
+
+    // Estados de compatibilidad
+    'compat_ok' => 'Compatible',
+    'compat_warn' => 'Advertencia',
+    'compat_bad' => 'Incompatible',
+    'compat_na' => 'Sin dato',
+    'compat_none' => 'Sin relación',
+
+    // Armador
+    'builder_title' => 'Arma tu PC',
+    'builder_subtitle' => 'Elige cada componente, verifica la compatibilidad en tiempo real y agrega todo al carrito de una sola vez.',
+    'slot_cpu' => 'Procesador',
+    'slot_chipset' => 'Placa madre (chipset)',
+    'slot_ram' => 'Memoria RAM',
+    'slot_gpu' => 'Tarjeta gráfica',
+    'slot_almacenamiento' => 'Almacenamiento',
+    'slot_fuente' => 'Fuente de poder',
+    'slot_refrigeracion' => 'Refrigeración',
+    'slot_gabinete' => 'Gabinete',
+    'required' => 'obligatorio',
+    'none_selected' => '— Sin seleccionar —',
+    'choose_components' => 'Elige componentes',
+    'build_compatibility' => 'Compatibilidad del armado',
+    'add_two_related' => 'Agrega al menos dos componentes relacionados.',
+    'consumption_estimated' => 'Consumo estimado',
+    'total_sellable' => 'Total (componentes a la venta)',
+    'add_all_to_cart' => 'Agregar todo al carrito',
+    'builder_note' => 'Los componentes marcados como “solo referencia” o sin stock no se agregan al carrito.',
+    'compatibility_check' => 'Verificación de compatibilidad',
+    'select_to_check' => 'Selecciona componentes para ver las comprobaciones de compatibilidad.',
+    'component_a' => 'Componente A',
+    'component_b' => 'Componente B',
+    'detail' => 'Detalle',
+    // Estados dinamicos del armador (JS)
+    'build_ok' => 'Armado compatible',
+    'build_warn' => 'Compatible con advertencias',
+    'build_bad' => 'Hay incompatibilidades',
+    'badge_compatible' => 'Compatible',
+    'badge_warn' => 'Con advertencias',
+    'badge_bad' => 'Incompatible',
+    'missing' => 'Faltan',
+    'components_buyable' => 'de :total componentes se pueden comprar.',
+    'add_anyway' => 'Agregar de todos modos (hay incompatibilidades)',
+    'ref_only' => 'Solo referencia (no se compra).',
+    'no_stock_note' => 'Sin stock: no se agregará al carrito.',
+    'available' => 'Disponible',
+    'in_stock' => 'en stock',
+
+    // Productos aliados (servicio consumido)
+    'allied_title' => 'Productos de equipos aliados',
+    'allied_subtitle' => 'Catálogo consumido en vivo desde el servicio web de otro equipo.',
+    'allied_source' => 'Fuente del servicio',
+    'allied_unavailable' => 'El servicio aliado no está disponible en este momento.',
+    'allied_view' => 'Ver producto',
+    'allied_empty' => 'El servicio no devolvió productos.',
+    'price' => 'Precio',
+    'category' => 'Categoría',
+
+    // Clima (servicio de tercero)
+    'weather_in' => 'Clima en Medellín',
+
+    // Footer
+    'footer_copy' => 'Proyecto académico',
+];

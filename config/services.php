@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    // URL del servicio web del equipo precedente (entregable #2). Si queda
+    // vacia, /productos-aliados consume el propio /api/productos como demo.
+    'allied_products_url' => env('ALLIED_PRODUCTS_URL'),
+
 ];

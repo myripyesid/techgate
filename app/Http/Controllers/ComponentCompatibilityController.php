@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace App\Http\Controllers;
 
@@ -8,11 +9,9 @@ use Illuminate\Http\Request;
 
 class ComponentCompatibilityController extends Controller
 {
-    /**
-     * Muestra un formulario para elegir dos productos y verificar si
-     * son compatibles entre si. Si vienen product_a_id y product_b_id
-     * en la query string, calcula y muestra el resultado.
-     */
+    // Muestra un formulario para elegir dos productos y verificar si
+    // son compatibles entre si. Si vienen product_a_id y product_b_id
+    // en la query string, calcula y muestra el resultado.
     public function index(Request $request)
     {
         $productos = Product::with('category')->orderBy('nombre')->get();
@@ -21,6 +20,7 @@ class ComponentCompatibilityController extends Controller
         $productoB = null;
         $esCompatible = null;
         $razon = null;
+        $detalle = null;
 
         $productoAId = $request->query('product_a_id');
         $productoBId = $request->query('product_b_id');
@@ -31,13 +31,14 @@ class ComponentCompatibilityController extends Controller
 
             if ($productoA && $productoB && $productoA->getId() !== $productoB->getId()) {
                 $compatibilidad = new ComponentCompatibility();
-                $esCompatible = $compatibilidad->evaluarCompatibilidad($productoA, $productoB);
-                $razon = $esCompatible ? null : $compatibilidad->obtenerRazonIncompatibilidad($productoA, $productoB);
+                $detalle = $compatibilidad->evaluar($productoA, $productoB);
+                $esCompatible = $detalle['compatible'];
+                $razon = $esCompatible ? null : $detalle['mensaje'];
             }
         }
 
         return view('compatibility.index', compact(
-            'productos', 'productoA', 'productoB', 'esCompatible', 'razon'
+            'productos', 'productoA', 'productoB', 'esCompatible', 'razon', 'detalle'
         ));
     }
 }

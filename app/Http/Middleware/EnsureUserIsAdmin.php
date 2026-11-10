@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 
 namespace App\Http\Middleware;
 
@@ -6,10 +7,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Restringe una ruta a los usuarios con rol "administrador".
- * Se registra con el alias "admin" en bootstrap/app.php.
- */
+// Restringe una ruta a los usuarios con rol "administrador".
+// Se registra con el alias "admin" en bootstrap/app.php.
 class EnsureUserIsAdmin
 {
     public function handle(Request $request, Closure $next): Response

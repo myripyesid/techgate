@@ -1,4 +1,5 @@
 <?php
+// Autor: Santiago
 
 namespace App\Models;
 
@@ -6,13 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Clase "Pedido" del diagrama de clases.
- *
- * Atributos: id, fecha, estado, total.
- * Operaciones: procesarPedido(), actualizarEstado(nuevoEstado),
- *              cancelarPedido(), generarFactura().
- */
+// Clase "Pedido" del diagrama de clases.
+// Atributos: id, fecha, estado, total.
+// Operaciones: procesarPedido(), actualizarEstado(nuevoEstado),
+// cancelarPedido(), generarFactura().
 class Order extends Model
 {
     use HasFactory;
@@ -41,11 +39,7 @@ class Order extends Model
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relaciones
-    |--------------------------------------------------------------------------
-    */
+    // Relaciones
 
     public function user()
     {
@@ -67,16 +61,10 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Creacion del pedido a partir del carrito
-    |--------------------------------------------------------------------------
-    */
+    // Creacion del pedido a partir del carrito
 
-    /**
-     * Crea un pedido "pendiente" copiando las lineas del carrito.
-     * No descuenta stock todavia: eso ocurre en procesarPedido().
-     */
+    // Crea un pedido "pendiente" copiando las lineas del carrito.
+    // No descuenta stock todavia: eso ocurre en procesarPedido().
     public static function crearDesdeCarrito(User $usuario, Cart $carrito, PaymentMethod $formaPago): self
     {
         $carrito->load('items.product');
@@ -109,18 +97,11 @@ class Order extends Model
         });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Operaciones del diagrama
-    |--------------------------------------------------------------------------
-    */
+    // Operaciones del diagrama
 
-    /**
-     * procesarPedido()
-     *
-     * Valida stock, cobra con la forma de pago asociada, descuenta el
-     * stock de cada producto y marca el pedido como pagado.
-     */
+    // procesarPedido()
+    // Valida stock, cobra con la forma de pago asociada, descuenta el
+    // stock de cada producto y marca el pedido como pagado.
     public function procesarPedido(): bool
     {
         if ($this->getEstado() !== self::ESTADO_PENDIENTE) {
@@ -168,9 +149,7 @@ class Order extends Model
         });
     }
 
-    /**
-     * actualizarEstado(nuevoEstado)
-     */
+    // actualizarEstado(nuevoEstado)
     public function actualizarEstado(string $nuevoEstado): bool
     {
         if (! in_array($nuevoEstado, self::ESTADOS, true)) {
@@ -182,11 +161,8 @@ class Order extends Model
         return $this->save();
     }
 
-    /**
-     * cancelarPedido()
-     *
-     * Si el pedido ya estaba pagado, devuelve el stock reservado.
-     */
+    // cancelarPedido()
+    // Si el pedido ya estaba pagado, devuelve el stock reservado.
     public function cancelarPedido(): bool
     {
         if (! $this->sePuedeCancelar()) {
@@ -206,11 +182,8 @@ class Order extends Model
         });
     }
 
-    /**
-     * generarFactura()
-     *
-     * Devuelve los datos de la factura del pedido.
-     */
+    // generarFactura()
+    // Devuelve los datos de la factura del pedido.
     public function generarFactura(): array
     {
         $this->load('items', 'user', 'paymentMethod');
@@ -235,11 +208,7 @@ class Order extends Model
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -263,10 +232,8 @@ class Order extends Model
         return $this->getAttribute('estado');
     }
 
-    /**
-     * Setter del estado. No guarda en base de datos: para eso esta la
-     * operacion actualizarEstado() del diagrama.
-     */
+    // Setter del estado. No guarda en base de datos: para eso esta la
+    // operacion actualizarEstado() del diagrama.
     public function setEstado(string $estado): static
     {
         if (! in_array($estado, self::ESTADOS, true)) {
@@ -335,7 +302,7 @@ class Order extends Model
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, OrderItem> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, OrderItem>
     public function getItems()
     {
         return $this->items;

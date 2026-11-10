@@ -1,8 +1,10 @@
 <?php
+// Autor: Marbin
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\CompatibilityService;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductComparator extends Model
@@ -43,17 +45,18 @@ class ProductComparator extends Model
                 'precio' => $producto->getPrecio(),
                 'stock' => $producto->getStock(),
                 'disponible' => $producto->estaDisponible(),
+                'marca' => $producto->getMarca(),
+                'especificaciones' => $producto->getEspecificaciones(),
             ];
         });
     }
 
-    /**
-     * Verifica, par por par, si los productos agregados al comparador
-     * son compatibles entre si.
-     */
+    // Verifica, par por par, si los productos agregados al comparador
+    // son compatibles entre si. Cada par trae ademas el estado detallado
+    // (ok | warn | bad | na | ninguna) y el mensaje de la regla aplicada.
     public function verificarArmado(): array
     {
-        $productos = $this->products()->get();
+        $productos = $this->products()->with('category')->get()->values();
         $compatibilidad = new ComponentCompatibility();
         $resultado = [];
 
@@ -61,13 +64,15 @@ class ProductComparator extends Model
             for ($j = $i + 1; $j < count($productos); $j++) {
                 $a = $productos[$i];
                 $b = $productos[$j];
-                $esCompatible = $compatibilidad->evaluarCompatibilidad($a, $b);
+                $detalle = $compatibilidad->evaluar($a, $b);
 
                 $resultado[] = [
                     'producto_a' => $a->getNombre(),
                     'producto_b' => $b->getNombre(),
-                    'compatible' => $esCompatible,
-                    'razon' => $esCompatible ? null : $compatibilidad->obtenerRazonIncompatibilidad($a, $b),
+                    'compatible' => $detalle['compatible'],
+                    'estado' => $detalle['estado'],
+                    'mensaje' => $detalle['mensaje'],
+                    'razon' => $detalle['compatible'] ? null : $detalle['mensaje'],
                 ];
             }
         }
@@ -75,10 +80,24 @@ class ProductComparator extends Model
         return $resultado;
     }
 
-    /**
-     * Obtiene (o crea) el comparador que pertenece a un usuario.
-     * Cada usuario tiene el suyo (relacion 1 a 1).
-     */
+    // Consumo estimado del equipo si el comparador tiene procesador, grafica
+    // y fuente. Devuelve null en caso contrario.
+    public function estimarConsumo(): ?array
+    {
+        $productos = $this->products()->with('category')->get();
+        $especificaciones = fn (string $slug) => $productos
+            ->first(fn (Product $p) => $p->getCategorySlug() === $slug)
+            ?->getEspecificaciones();
+
+        return app(CompatibilityService::class)->estimarConsumo(
+            $especificaciones('cpu'),
+            $especificaciones('gpu'),
+            $especificaciones('fuente')
+        );
+    }
+
+    // Obtiene (o crea) el comparador que pertenece a un usuario.
+    // Cada usuario tiene el suyo (relacion 1 a 1).
     public static function paraUsuario(User $usuario): self
     {
         return self::firstOrCreate(
@@ -92,19 +111,13 @@ class ProductComparator extends Model
         );
     }
 
-    /**
-     * Vacia el comparador.
-     */
+    // Vacia el comparador.
     public function vaciar(): void
     {
         $this->products()->detach();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -166,7 +179,7 @@ class ProductComparator extends Model
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Product>
     public function getProductos()
     {
         return $this->products()->get();

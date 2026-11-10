@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 
 namespace App\Http\Controllers;
 
@@ -9,12 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Login / registro / logout.
- *
- * El rol (usuario o administrador) se guarda en la columna "rol" de la
- * tabla users y determina que secciones puede ver cada quien.
- */
+// Login / registro / logout.
+// El rol (usuario o administrador) se guarda en la columna "rol" de la
+// tabla users y determina que secciones puede ver cada quien.
 class AuthController extends Controller
 {
     public function showLogin()
@@ -22,33 +20,28 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-  /*  public function login(Request $request)
-{
-    $email = $request->input('email');
-    $password = $request->input('password');
-
-    // 1. Buscar usuario manualmente en BD
-    $user = \App\Models\User::where('email', $email)->first();
-
-    // 2. Probar Hash::check directo
-    $hashCheck = $user ? \Illuminate\Support\Facades\Hash::check($password, $user->password) : false;
-
-    // 3. Probar Auth::attempt directo (sin pasar por User::iniciarSesion)
-    $authAttempt = \Illuminate\Support\Facades\Auth::attempt([
-        'email' => $email,
-        'password' => $password,
-    ]);
-
-    dd([
-        'email_recibido'      => $email,
-        'password_recibida'   => $password,
-        'longitud_password'   => strlen($password),
-        'usuario_encontrado'  => $user ? $user->only(['id', 'email', 'password']) : null,
-        'Hash::check_directo' => $hashCheck,
-        'Auth::attempt'       => $authAttempt,
-    ]);
-}
-*/
+  // public function login(Request $request)
+  // {
+  // $email = $request->input('email');
+  // $password = $request->input('password');
+  // // 1. Buscar usuario manualmente en BD
+  // $user = \App\Models\User::where('email', $email)->first();
+  // // 2. Probar Hash::check directo
+  // $hashCheck = $user ? \Illuminate\Support\Facades\Hash::check($password, $user->password) : false;
+  // // 3. Probar Auth::attempt directo (sin pasar por User::iniciarSesion)
+  // $authAttempt = \Illuminate\Support\Facades\Auth::attempt([
+  // 'email' => $email,
+  // 'password' => $password,
+  // ]);
+  // dd([
+  // 'email_recibido'      => $email,
+  // 'password_recibida'   => $password,
+  // 'longitud_password'   => strlen($password),
+  // 'usuario_encontrado'  => $user ? $user->only(['id', 'email', 'password']) : null,
+  // 'Hash::check_directo' => $hashCheck,
+  // 'Auth::attempt'       => $authAttempt,
+  // ]);
+  // }
 
 public function login(Request $request)
 {

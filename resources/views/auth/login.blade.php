@@ -1,10 +1,11 @@
+{{-- Autor: Kevin --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card shadow-sm">
+            <div class="card tg-auth-card">
                 <div class="card-body">
                     <h1 class="h4 mb-3">Iniciar sesión</h1>
 
@@ -27,7 +28,7 @@
                             <label for="recordarme" class="form-check-label">Recordarme</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Entrar</button>
                     </form>
 
                     <hr>

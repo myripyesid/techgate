@@ -1,14 +1,13 @@
 <?php
+// Autor: Santiago
 
 namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-/**
- * Carrito de compras. Exclusivo de usuarios autenticados: cada quien
- * opera sobre su propio carrito activo.
- */
+// Carrito de compras. Exclusivo de usuarios autenticados: cada quien
+// opera sobre su propio carrito activo.
 class CartController extends Controller
 {
     public function index(Request $request)
@@ -31,6 +30,10 @@ class CartController extends Controller
 
         $cantidad = $datos['cantidad'] ?? 1;
         $carrito = $request->user()->carritoActivo();
+
+        if (! $product->esVendible()) {
+            return back()->with('error', "\"{$product->nombre}\" es un producto de referencia o no tiene precio confirmado: no se puede comprar.");
+        }
 
         if (! $carrito->agregarProducto($product, $cantidad)) {
             return back()->with('error', "No hay stock suficiente de \"{$product->nombre}\".");

@@ -1,3 +1,4 @@
+{{-- Autor: Marbin --}}
 @extends('layouts.app')
 
 @section('content')
@@ -40,13 +41,15 @@
         @if($productoA->getId() === $productoB->getId())
             <div class="alert alert-warning">Selecciona dos productos diferentes.</div>
         @else
-            <div class="alert {{ $esCompatible ? 'alert-success' : 'alert-danger' }}">
+            @php($estado = $detalle['estado'] ?? ($esCompatible ? 'ok' : 'bad'))
+            <div class="alert {{ $estado === 'warn' ? 'alert-warning' : ($esCompatible ? 'alert-success' : 'alert-danger') }}">
                 <strong>{{ $productoA->getNombre() }}</strong> y <strong>{{ $productoB->getNombre() }}</strong>
-                son
-                @if($esCompatible)
-                    <strong>compatibles</strong>.
+                @if($estado === 'warn')
+                    son <strong>compatibles con una advertencia</strong>: {{ $detalle['mensaje'] }}
+                @elseif($esCompatible)
+                    son <strong>compatibles</strong>. {{ $detalle['mensaje'] ?? '' }}
                 @else
-                    <strong>incompatibles</strong>. Motivo: {{ $razon }}
+                    son <strong>incompatibles</strong>. Motivo: {{ $razon }}
                 @endif
             </div>
         @endif

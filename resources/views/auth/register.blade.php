@@ -1,10 +1,11 @@
+{{-- Autor: Kevin --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow-sm">
+            <div class="card tg-auth-card">
                 <div class="card-body">
                     <h1 class="h4 mb-3">Crear cuenta</h1>
 

@@ -1,225 +1,164 @@
-# 🚀 TechGate - Core Domain & Interface (Sprint 1)
+# TechGate — Comparador profesional + Armador de PC + Reglas de compatibilidad
 
-## 📌 Descripción del Proyecto
-Monolito web desarrollado en **Laravel 13** para la gestión de productos, categorías y evaluación de compatibilidad de componentes en **TechGate** (tienda de tecnología).
+Este repositorio contiene el trabajo desarrollado sobre **TechGate** (rama
+`exposicion` de `myripyesid/techgate`): mejora del comparador de productos,
+una nueva pestaña "Arma tu PC" y la ampliación de las reglas de compatibilidad.
 
----
-
-## 🛠️ Cambios e Implementaciones en este Push
-
-### 1. 🗄️ Modelos y Base de Datos (Eloquent & Migraciones)
-* **Entidades Principales:** Creados los modelos y migraciones correspondientes para:
-  * `Category`: Gestión de categorías de productos.
-  * `Product`: Relacionado directamente con su categoría (`belongsTo`).
-  * `ProductComparator`: Lógica para comparación de características.
-  * `ComponentCompatibility`: Reglas de validación y compatibilidad entre hardware/componentes.
-
-### 2. 🎮 Controladores Web (MVC Monolítico)
-* **`ProductController`**: Métodos para listado (`index`), renderizado del formulario (`create`) y almacenamiento (`store`).
-* **`CategoryController`**: Métodos para gestión de categorías (`index`, `create`, `store`).
-* **`ProductComparatorController` & `ComponentCompatibilityController`**: Controladores de soporte para el dominio core.
-
-### 3. 🎨 Interfaz de Usuario (Vistas con Blade & Bootstrap 5)
-* **Plantilla Base (`resources/views/layouts/app.blade.php`)**: Layout principal con barra de navegación integrada mediante CDN de Bootstrap 5.
-* **Módulo de Productos (`resources/views/products/`)**:
-  * `index.blade.php`: Tabla de catálogo de productos.
-  * `create.blade.php`: Formulario de registro con manejo de errores y selección dinámica de categorías.
-* **Módulo de Categorías (`resources/views/categories/`)**:
-  * `index.blade.php`: Listado de categorías registradas.
-  * `create.blade.php`: Formulario de ingreso de nuevas categorías.
-
-### 4. 🛣️ Rutas Web (`routes/web.php`)
-* Configuración de rutas resource para `products` y `categories`.
-* Redirección básica de la raíz (`/`) al catálogo principal.
-
-### 5. 🧪 Testing & Automatización
-* **Pruebas Unitarias (`tests/Unit/ProductTest.php`)**:
-  * Validación de la reducción de stock y manejo de stock insuficiente.
-* **Pruebas de Integración (`tests/Feature/ProductWebTest.php`)**:
-  * Verificación del flujo de creación de productos a través del formulario web HTTP.
-* **Ajustes en `tests/Feature/ExampleTest.php`**:
-  * Adaptación para validar la redirección correcta de la ruta principal.
+> Es una **entrega de archivos**, no una copia completa del proyecto. Incluye
+> solo los archivos nuevos/modificados (con su ruta original) más un paquete
+> `.zip` y un parche `.diff` para aplicarlo sobre tu copia de TechGate.
 
 ---
 
-## ⚡ Instrucciones de Ejecución Local
+## 📦 Cómo usar esta entrega
 
-# TechGate
+Tienes tres formas de incorporar los cambios a tu proyecto TechGate:
 
-## Installation and Setup
+### Opción A — Copiar los archivos (recomendada)
+Cada archivo está en su ruta original (`app/...`, `resources/...`, etc.).
+Cópialos sobre tu proyecto TechGate respetando esas rutas, sobrescribiendo
+los existentes. Los nuevos se crearán solos.
 
-Follow these steps to run TechGate locally after cloning the repository.
-
-### 1. Clone the repository
+### Opción B — Aplicar el parche
+Desde la raíz de tu proyecto TechGate (rama `exposicion`):
 
 ```bash
-git clone https://github.com/myripyesid/techgate.git
-cd techgate
+git apply _entrega/techgate-comparador-armador.diff
 ```
 
-### 2. Install PHP dependencies
-
-Install all Laravel dependencies using Composer:
-
+### Opción C — Descomprimir el ZIP
 ```bash
-composer install
+unzip _entrega/techgate-comparador-armador.zip -d /ruta/a/techgate
 ```
 
-### 3. Configure the environment
-
-Create the `.env` file from the example configuration:
-
+### Después de aplicar los cambios (en cualquier opción)
 ```bash
-copy .env.example .env
-```
-
-> **Note:** On Linux/macOS, use:
->
-> ```bash
-> cp .env.example .env
-> ```
-
-### 4. Generate the application key
-
-Generate Laravel's application encryption key:
-
-```bash
-php artisan key:generate
-```
-
-### 5. Clear cached configuration
-
-Clear Laravel's configuration cache:
-
-```bash
-php artisan config:clear
-```
-
-### 6. Create the SQLite database
-
-TechGate uses SQLite for its database.
-
-Create the database file:
-
-```bash
-New-Item database/database.sqlite -ItemType File
-```
-
-> **Linux/macOS:**
->
-> ```bash
-> touch database/database.sqlite
-> ```
-
-### 7. Run database migrations
-
-Create the database tables:
-
-```bash
-php artisan migrate
-```
-
-### 8. Populate the database
-
-Run the database seeders to create the required initial data:
-
-```bash
-php artisan db:seed
-```
-
-### 9. Clear the application cache
-
-Clear the application cache after configuring the database:
-
-```bash
-php artisan cache:clear
-```
-
-### 10. Start the development server
-
-Run the Laravel development server:
-
-```bash
+php artisan migrate:fresh --seed   # necesario: recarga el catálogo con la longitud de las GPU
 php artisan serve
 ```
-
-The application should now be available at:
-
-```text
-http://127.0.0.1:8000
-```
+Entra como **usuario@techgate.com / usuario1234** → verás **Comparador** (con
+gráficos) y **🧩 Arma tu PC** en el menú.
 
 ---
 
-## Complete Setup
+## 🗂️ Archivos incluidos
 
-For convenience, the complete setup sequence is:
+### Nuevos
+| Archivo | Qué es |
+|---|---|
+| `app/Services/PerformanceScoreService.php` | Índice de rendimiento estimado (0–100) ponderado por las specs del catálogo. |
+| `app/Services/PcBuilderService.php` | Lógica del armador de PC (slots, compatibilidad par a par, consumo, total). |
+| `app/Http/Controllers/PcBuilderController.php` | Pestaña "Arma tu PC", evaluación en vivo (AJAX) y "agregar todo al carrito". |
+| `resources/views/builder/index.blade.php` | Vista del armador. |
+| `tests/Feature/PcBuilderFlowTest.php` | Pruebas del flujo del armador y los gráficos del comparador. |
 
+### Modificados
+| Archivo | Cambio |
+|---|---|
+| `app/Services/CompatibilityService.php` | **Reglas de compatibilidad ampliadas** (ver abajo). |
+| `app/Http/Controllers/ProductComparatorController.php` | Inyecta el índice de rendimiento para los gráficos. |
+| `app/Providers/AppServiceProvider.php` | Helper de iconos por categoría, compartido con las vistas. |
+| `config/catalogo.php` | Nueva spec `longitud_mm` en Tarjetas gráficas. |
+| `database/seeders/ProductSeeder.php` | Stock de demostración (≥10) para que el carrito/armador operen. |
+| `database/seeders/data/catalogo.json` | Longitud real (`longitud_mm`) de las 14 GPU. |
+| `public/css/techgate.css` | Estilos del comparador y del armador (paleta TechGate). |
+| `resources/views/comparator/index.blade.php` | Comparador rediseñado + gráficos Chart.js. |
+| `resources/views/layouts/app.blade.php` | Enlace "Arma tu PC" en el menú. |
+| `routes/web.php` | Rutas del armador. |
+| `tests/Unit/CompatibilityServiceTest.php` | 9 pruebas nuevas de las reglas ampliadas. |
+
+---
+
+## ⚙️ Qué se desarrolló
+
+### 1. Comparador profesional (con gráficos)
+- Índice de rendimiento **estimado 0–100** ponderado con los pesos de
+  `config/catalogo.php` (no es un benchmark real; está etiquetado como tal).
+- Tres gráficos con **Chart.js** (CDN): barras de índice global, radar por
+  característica y barras por especificación.
+- Cabecera "versus", veredicto y tabla detallada rediseñados.
+
+### 2. Nueva pestaña "Arma tu PC"
+- Slots: Procesador, Placa (chipset), RAM, GPU, Almacenamiento, Fuente,
+  Refrigeración y Gabinete.
+- **Compatibilidad en vivo** (AJAX) con semáforo ✅/⚠️/❌ por cada par.
+- **Medidor de consumo** del equipo vs. la fuente.
+- Botón **"Agregar todo al carrito"** (agrega el build completo de una vez).
+
+### 3. Reglas de compatibilidad ampliadas
+Se pasó de **11 a 13 pares** con regla técnica específica. Nuevas reglas:
+
+| Regla | Valida |
+|---|---|
+| `gpu \| gabinete` | Longitud de la gráfica vs. espacio del gabinete (antes estaba inactiva por falta de datos; se añadió la longitud real a cada GPU). |
+| `cpu \| gpu` | Generación PCIe de la CPU frente a la de la GPU. |
+| `cpu \| fuente` | Consumo del procesador + margen vs. potencia de la fuente. |
+| `chipset \| fuente` | Recomienda fuente ATX 3.x en plataformas PCIe 5.0. |
+| `cpu \| almacenamiento` | SSD NVMe PCIe 5.0 vs. carriles PCIe del procesador. |
+
+Los pares sin una restricción técnica real (p. ej. `ram | gpu`) se mantienen
+como "compatibles" a propósito, sin inventar incompatibilidades.
+
+---
+
+## ✅ Pruebas
+`php artisan test` → **81 pruebas, 216 aserciones, todas en verde**
+(68 originales + 13 nuevas).
+
+
+---
+
+# Entregable #2 — Arquitectura MVC + Servicios + DI + Docker
+
+Implementación de los requisitos técnicos del entregable #2 (se omiten las
+correcciones del docente y los diagramas, según lo acordado).
+
+## 1. Dos idiomas (i18n con LANG)
+- Español (por defecto) e Inglés. Archivos en `lang/es/messages.php` y `lang/en/messages.php`.
+- Middleware `App\Http\Middleware\SetLocale` aplica el idioma guardado en sesión.
+- Selector **ES | EN** en la barra superior (ruta `/idioma/{locale}`).
+- Ningún texto quemado en las vistas principales: todo pasa por `__('messages.*')`.
+
+## 2. Servicio web propio (JSON)
+- `GET /api/productos` → lista de productos en stock a la venta, con el enlace
+  directo a la ficha de cada producto (`url`). Listo para que otro equipo lo consuma.
+- Controlador: `App\Http\Controllers\Api\ProductApiController`.
+
+## 3. Consumo del servicio del equipo precedente
+- Ruta `/productos-aliados` (`App\Http\Controllers\AlliedProductController`).
+- Configura la URL del equipo aliado en `ALLIED_PRODUCTS_URL` (archivo `.env`).
+  Si queda vacía, consume el propio `/api/productos` como demostración.
+
+## 4. Consumo de servicio de tercero
+- Clima de Medellín vía **Open-Meteo** (gratis, sin API key), mostrado en la
+  cabecera. Servicio: `App\Services\WeatherService` (con caché de 15 min y
+  degradación elegante si el servicio no responde).
+
+## 5. Inversión de dependencias (DI)
+- Interfaz `App\Services\Reports\ReportGenerator` con **dos** implementaciones:
+  `CsvReportGenerator` y `PdfReportGenerator`.
+- Binding por defecto en `AppServiceProvider`. Descarga: `/reportes/catalogo/{pdf|csv}`.
+
+## 6. Dos pruebas unitarias
+- `tests/Feature/Entregable2Test.php` (servicio JSON, consumo aliado, idioma, DI).
+- Suite completa: `php artisan test` → **86 pruebas en verde**.
+
+## 7. Docker
+- `Dockerfile` (PHP 8.4 + Apache), `docker-compose.yml` y `docker/entrypoint.sh`.
+- Local: `docker compose up --build` → la app queda en `http://localhost:8080`.
+- Para GCP: construir y subir esta imagen (Cloud Run / Compute Engine).
+
+## 8. Usabilidad
+- Estructura visual consistente (mismo layout, colores y tipografía en todas las vistas).
+- Formularios con `old()` → no se vacían al fallar la validación.
+- Menú principal, menú de usuario desplegable y pie de página accesibles.
+
+## Puesta en marcha local (sin Docker)
 ```bash
 composer install
-copy .env.example .env
-php artisan key:generate
-php artisan config:clear
-New-Item database/database.sqlite -ItemType File
-php artisan migrate
-php artisan db:seed
-php artisan cache:clear
-php artisan serve
-```
-
-If you are using **Linux/macOS**, replace the Windows-specific commands with:
-
-```bash
 cp .env.example .env
+php artisan key:generate
 touch database/database.sqlite
+php artisan migrate --seed
+php artisan serve
 ```
-
-## Requirements
-
-Before installing TechGate, make sure you have the following installed:
-
-* PHP
-* Composer
-* SQLite
-* Git
-
-Make sure your PHP version is compatible with the Laravel version used by this project.
-
-## Troubleshooting
-
-### Database file does not exist
-
-If Laravel reports:
-
-```text
-Database file at path [...] database.sqlite does not exist.
-```
-
-Make sure the SQLite database file has been created:
-
-```bash
-New-Item database/database.sqlite -ItemType File
-```
-
-Then run:
-
-```bash
-php artisan migrate
-```
-
-### Configuration problems
-
-If changes to `.env` do not seem to take effect, clear the configuration cache:
-
-```bash
-php artisan config:clear
-```
-
-### Application cache problems
-
-You can clear the application cache with:
-
-```bash
-php artisan cache:clear
-```
-

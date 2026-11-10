@@ -1,16 +1,14 @@
 <?php
+// Autor: Santiago
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Clase "Formas de pago" del diagrama de clases.
- *
- * Atributos: id, tipo, numeroTarjeta, titular.
- * Operaciones: validarMetodoPago(), procesarTransaccion(monto).
- */
+// Clase "Formas de pago" del diagrama de clases.
+// Atributos: id, tipo, numeroTarjeta, titular.
+// Operaciones: validarMetodoPago(), procesarTransaccion(monto).
 class PaymentMethod extends Model
 {
     use HasFactory;
@@ -36,18 +34,11 @@ class PaymentMethod extends Model
         return $this->hasMany(Order::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Operaciones del diagrama
-    |--------------------------------------------------------------------------
-    */
+    // Operaciones del diagrama
 
-    /**
-     * validarMetodoPago()
-     *
-     * Verifica que el tipo sea valido y, si es tarjeta, que el numero
-     * tenga el formato correcto (algoritmo de Luhn) y que haya titular.
-     */
+    // validarMetodoPago()
+    // Verifica que el tipo sea valido y, si es tarjeta, que el numero
+    // tenga el formato correcto (algoritmo de Luhn) y que haya titular.
     public function validarMetodoPago(): bool
     {
         if (! array_key_exists((string) $this->getAttribute('tipo'), self::TIPOS)) {
@@ -71,12 +62,9 @@ class PaymentMethod extends Model
         return self::validarLuhn($numero);
     }
 
-    /**
-     * procesarTransaccion(monto)
-     *
-     * Simula el cobro contra la pasarela de pagos. Devuelve true si el
-     * cobro se realizo correctamente.
-     */
+    // procesarTransaccion(monto)
+    // Simula el cobro contra la pasarela de pagos. Devuelve true si el
+    // cobro se realizo correctamente.
     public function procesarTransaccion(float $monto): bool
     {
         if ($monto <= 0) {
@@ -91,11 +79,7 @@ class PaymentMethod extends Model
         return true;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Utilidades
-    |--------------------------------------------------------------------------
-    */
+    // Utilidades
 
     public function requiereTarjeta(): bool
     {
@@ -107,9 +91,7 @@ class PaymentMethod extends Model
         return self::TIPOS[$this->getAttribute('tipo')] ?? (string) $this->getAttribute('tipo');
     }
 
-    /**
-     * Muestra solo los ultimos 4 digitos de la tarjeta.
-     */
+    // Muestra solo los ultimos 4 digitos de la tarjeta.
     public function numeroEnmascarado(): string
     {
         if (! $this->requiereTarjeta() || ! $this->getNumeroTarjeta()) {
@@ -150,11 +132,7 @@ class PaymentMethod extends Model
         return $suma % 10 === 0;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -177,10 +155,8 @@ class PaymentMethod extends Model
         return $this;
     }
 
-    /**
-     * Devuelve el numero completo. Para mostrarlo en pantalla se usa
-     * getNumeroEnmascarado().
-     */
+    // Devuelve el numero completo. Para mostrarlo en pantalla se usa
+    // getNumeroEnmascarado().
     public function getNumeroTarjeta(): ?string
     {
         return $this->getAttribute('numeroTarjeta');

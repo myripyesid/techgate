@@ -1,0 +1,19 @@
+# TechGate - orquestacion local con Docker (entregable #2).
+# Para desplegar en AWS se usa la misma imagen del Dockerfile
+# (Elastic Beanstalk, App Runner o ECS). Ver docker/README-AWS.md.
+
+services:
+  app:
+    build: .
+    image: techgate:latest
+    ports:
+      - "8080:80"
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_LOCALE: es
+      DB_CONNECTION: sqlite
+      # URL del servicio web del equipo aliado (opcional). Si se deja vacia,
+      # /productos-aliados consume el propio servicio como demostracion.
+      ALLIED_PRODUCTS_URL: ""
+    restart: unless-stopped

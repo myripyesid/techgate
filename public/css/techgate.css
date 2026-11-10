@@ -1,0 +1,250 @@
+/* TechGate - tema visual (inspirado en el estilo de los retailers colombianos:
+   cabecera amarilla, fondo blanco, tarjetas redondeadas y precios destacados). */
+:root {
+    --tg-yellow: #ffdd00;
+    --tg-yellow-dark: #f2c900;
+    --tg-ink: #1d1d1b;
+    --tg-grey: #f4f4f4;
+    --tg-border: #e6e6e6;
+    --tg-red: #e4002b;
+    --tg-green: #00a859;
+
+    --bs-primary: #1d1d1b;
+    --bs-primary-rgb: 29, 29, 27;
+    --bs-link-color: #1d1d1b;
+    --bs-link-hover-color: #000;
+    --bs-body-color: #1d1d1b;
+    --bs-body-font-family: "Poppins", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --bs-border-radius: .75rem;
+}
+
+body { background: #fff; color: var(--tg-ink); font-family: var(--bs-body-font-family); }
+a { text-decoration: none; }
+main { min-height: 60vh; padding-bottom: 3rem; }
+
+/* ---------- Barra superior ---------- */
+.tg-topbar { background: var(--tg-ink); color: #fff; font-size: .78rem; padding: .35rem 0; }
+.tg-topbar span { opacity: .95; }
+.tg-weather { color: var(--tg-yellow); font-weight: 600; }
+.tg-lang a { color: #bbb; font-weight: 700; padding: 0 .25rem; }
+.tg-lang a.active { color: var(--tg-yellow); }
+.tg-lang a:hover { color: #fff; }
+.tg-lang .divider { color: #555; }
+
+/* ---------- Cabecera ---------- */
+.tg-header { background: var(--tg-yellow); padding: .8rem 0; position: sticky; top: 0; z-index: 1030; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.tg-brand { font-weight: 800; font-size: 1.7rem; letter-spacing: -1px; color: var(--tg-ink); display: flex; align-items: center; gap: .4rem; }
+.tg-brand .dot { width: .6rem; height: .6rem; background: var(--tg-ink); border-radius: 50%; display: inline-block; }
+.tg-search { flex: 1; max-width: 620px; position: relative; }
+.tg-search input { border-radius: 999px; border: 2px solid transparent; padding: .6rem 3.2rem .6rem 1.2rem; background: #fff; box-shadow: none; }
+.tg-search input:focus { border-color: var(--tg-ink); box-shadow: none; }
+.tg-search button { position: absolute; right: .3rem; top: 50%; transform: translateY(-50%); border: 0; background: var(--tg-ink); color: #fff; width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center; }
+.tg-hlink { color: var(--tg-ink); font-weight: 600; font-size: .9rem; display: flex; align-items: center; gap: .35rem; padding: .35rem .6rem; border-radius: 999px; }
+.tg-hlink:hover { background: rgba(0,0,0,.08); color: var(--tg-ink); }
+.tg-cart { background: var(--tg-ink); color: #fff !important; padding: .45rem 1rem; border-radius: 999px; font-weight: 600; font-size: .9rem; display: inline-flex; align-items: center; gap: .5rem; }
+.tg-cart:hover { background: #000; }
+.tg-cart .count { background: var(--tg-yellow); color: var(--tg-ink); border-radius: 999px; padding: 0 .5rem; font-size: .75rem; font-weight: 700; }
+.tg-role { font-size: .65rem; background: var(--tg-ink); color: var(--tg-yellow); border-radius: 999px; padding: .1rem .5rem; margin-left: .25rem; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ---------- Navegacion secundaria ---------- */
+.tg-nav { background: #fff; border-bottom: 1px solid var(--tg-border); }
+.tg-nav .container { display: flex; gap: .25rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+.tg-nav a { color: var(--tg-ink); font-weight: 600; font-size: .88rem; padding: .75rem .9rem; border-bottom: 3px solid transparent; }
+.tg-nav a:hover, .tg-nav a.active { border-bottom-color: var(--tg-yellow-dark); background: #fffbe0; }
+.tg-nav .sep { width: 1px; background: var(--tg-border); margin: .6rem .4rem; }
+.tg-nav .admin-link { color: var(--tg-red); }
+
+/* ---------- Banner ---------- */
+.tg-hero { background: var(--tg-yellow); border-radius: 1.25rem; padding: 2rem 2.2rem; margin: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
+.tg-hero h1 { font-weight: 800; font-size: clamp(1.5rem, 3.5vw, 2.4rem); margin: 0 0 .4rem; letter-spacing: -1px; }
+.tg-hero p { margin: 0; font-size: 1.02rem; }
+.tg-hero .big { font-size: 5rem; line-height: 1; opacity: .9; }
+@media (max-width: 576px) { .tg-hero .big { display: none; } }
+
+/* ---------- Beneficios ---------- */
+.tg-perks { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+.tg-perk { background: var(--tg-grey); border-radius: 1rem; padding: .8rem 1rem; display: flex; align-items: center; gap: .7rem; font-size: .85rem; font-weight: 600; }
+.tg-perk .ico { font-size: 1.4rem; }
+
+/* ---------- Titulos ---------- */
+.tg-title { font-weight: 800; font-size: 1.4rem; letter-spacing: -.5px; margin-bottom: 1rem; }
+.tg-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.2rem; }
+.tg-chip { border: 1.5px solid var(--tg-border); background: #fff; border-radius: 999px; padding: .35rem .95rem; font-size: .85rem; font-weight: 600; color: var(--tg-ink); }
+.tg-chip:hover { border-color: var(--tg-ink); }
+.tg-chip.active { background: var(--tg-ink); color: #fff; border-color: var(--tg-ink); }
+
+/* ---------- Tarjeta de producto ---------- */
+.tg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 1rem; }
+.tg-card { background: #fff; border: 1px solid var(--tg-border); border-radius: 1rem; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; position: relative; }
+.tg-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.12); transform: translateY(-2px); }
+.tg-card .thumb { background: var(--tg-grey); height: 150px; display: grid; place-items: center; font-size: 3.6rem; }
+.tg-card .body { padding: .9rem 1rem 1rem; display: flex; flex-direction: column; gap: .25rem; flex: 1; }
+.tg-card .brand { font-size: .72rem; text-transform: uppercase; letter-spacing: .6px; color: #777; font-weight: 700; }
+.tg-card .name { font-weight: 600; font-size: .93rem; line-height: 1.25; color: var(--tg-ink); min-height: 2.3em; }
+.tg-card .cat { font-size: .75rem; color: #888; }
+.tg-price { font-size: 1.3rem; font-weight: 800; letter-spacing: -.5px; margin-top: .3rem; }
+.tg-price small { font-size: .7rem; font-weight: 600; color: #777; letter-spacing: 0; }
+.tg-tag { position: absolute; top: .7rem; left: .7rem; font-size: .68rem; font-weight: 700; padding: .2rem .6rem; border-radius: 999px; background: var(--tg-ink); color: #fff; }
+.tg-tag.out { background: var(--tg-red); }
+.tg-card .actions { margin-top: auto; padding-top: .6rem; display: flex; gap: .4rem; align-items: center; }
+.tg-card .actions form { margin: 0; }
+
+/* ---------- Botones ---------- */
+.btn { border-radius: 999px; font-weight: 600; }
+.btn-primary, .btn-success { background: var(--tg-yellow); border-color: var(--tg-yellow); color: var(--tg-ink); }
+.btn-primary:hover, .btn-success:hover, .btn-primary:focus, .btn-success:focus, .btn-primary:active, .btn-success:active { background: var(--tg-yellow-dark) !important; border-color: var(--tg-yellow-dark) !important; color: var(--tg-ink) !important; }
+.btn-primary:disabled, .btn-success:disabled { background: #eee; border-color: #eee; color: #999; }
+.btn-outline-primary, .btn-outline-secondary { color: var(--tg-ink); border-color: var(--tg-ink); }
+.btn-outline-primary:hover, .btn-outline-secondary:hover { background: var(--tg-ink); border-color: var(--tg-ink); color: #fff; }
+.btn-secondary { background: var(--tg-ink); border-color: var(--tg-ink); }
+.btn-outline-light { border-color: var(--tg-ink); color: var(--tg-ink); }
+.btn-outline-light:hover { background: var(--tg-ink); color: #fff; }
+.btn-add { background: var(--tg-ink); color: #fff; flex: 1; font-size: .85rem; }
+.btn-add:hover { background: #000; color: var(--tg-yellow); }
+.btn-add:disabled { background: #ddd; color: #888; }
+.btn-cmp { border: 1.5px solid var(--tg-border); background: #fff; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; padding: 0 .9rem; height: 2.3rem; font-size: .82rem; font-weight: 600; color: var(--tg-ink); white-space: nowrap; }
+.btn-cmp:hover { border-color: var(--tg-ink); background: var(--tg-ink); color: #fff; }
+
+/* Iconos SVG de categoria (reemplazan a los emojis) */
+.tg-ico { color: var(--tg-ink); display: block; }
+.tg-card .thumb .tg-ico { color: #555; }
+.tg-detail .pic .tg-ico { color: #555; }
+.cmp-emoji .tg-ico { color: var(--tg-ink); margin: 0 auto; }
+.pcb-slot-ico .tg-ico { color: var(--tg-ink); }
+
+/* ---------- Formularios / tablas / tarjetas genericas ---------- */
+.form-control, .form-select { border-radius: .7rem; border: 1.5px solid var(--tg-border); padding: .55rem .9rem; }
+.form-control:focus, .form-select:focus { border-color: var(--tg-ink); box-shadow: 0 0 0 .2rem rgba(255, 221, 0, .45); }
+.form-check-input:checked { background-color: var(--tg-ink); border-color: var(--tg-ink); }
+.card { border: 1px solid var(--tg-border); border-radius: 1rem; box-shadow: none !important; }
+.table { --bs-table-striped-bg: #fafafa; }
+.table-dark { --bs-table-bg: var(--tg-ink); --bs-table-color: var(--tg-yellow); }
+.table-responsive, .table.bg-white { border-radius: .8rem; overflow: hidden; }
+.badge.bg-secondary { background: #888 !important; }
+.badge.bg-success { background: var(--tg-green) !important; }
+.badge.bg-danger { background: var(--tg-red) !important; }
+.badge.bg-warning { background: var(--tg-yellow) !important; color: var(--tg-ink) !important; }
+.alert { border-radius: .9rem; border: 0; }
+.alert-success { background: #e4f8ee; color: #0a6b3b; }
+.alert-danger { background: #fde8ec; color: #a1001d; }
+.breadcrumb a { color: #666; }
+h1, .h1, .h3, .h4 { font-weight: 800; letter-spacing: -.5px; }
+.tg-auth-card { max-width: 430px; margin: 2rem auto; border-top: 6px solid var(--tg-yellow); }
+
+/* ---------- Ficha de producto ---------- */
+.tg-detail { display: grid; grid-template-columns: minmax(220px, 380px) 1fr; gap: 2rem; margin-bottom: 1.5rem; }
+.tg-detail .pic { background: var(--tg-grey); border-radius: 1.2rem; display: grid; place-items: center; font-size: 8rem; min-height: 280px; }
+.tg-detail .price { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
+@media (max-width: 768px) { .tg-detail { grid-template-columns: 1fr; } }
+
+/* ---------- Pie de pagina ---------- */
+.tg-footer { background: var(--tg-ink); color: #ddd; padding: 2.2rem 0 1.2rem; font-size: .88rem; }
+.tg-footer h6 { color: var(--tg-yellow); font-weight: 700; margin-bottom: .8rem; }
+.tg-footer a { color: #ddd; display: block; margin-bottom: .35rem; }
+.tg-footer a:hover { color: var(--tg-yellow); }
+.tg-footer .copy { border-top: 1px solid #3a3a38; margin-top: 1.5rem; padding-top: 1rem; font-size: .78rem; color: #999; }
+
+/* Pie de pagina minimalista (sin columnas ni barra de beneficios) */
+.tg-footer-min { padding: 1.1rem 0; }
+.tg-footer-min .copy { border-top: 0; margin-top: 0; padding-top: 0; }
+
+/* ---------- Menu desplegable de usuario ---------- */
+.tg-hlink.dropdown-toggle::after { vertical-align: middle; margin-left: .15rem; }
+.tg-user-menu { border: 0; border-radius: .8rem; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: .4rem; min-width: 210px; }
+.tg-user-menu .dropdown-item { border-radius: .5rem; font-weight: 600; font-size: .9rem; padding: .55rem .8rem; color: var(--tg-ink); }
+.tg-user-menu .dropdown-item:hover, .tg-user-menu .dropdown-item:focus { background: #fffbe0; color: var(--tg-ink); }
+.tg-user-menu form { margin: 0; }
+.tg-user-menu button.dropdown-item { width: 100%; text-align: left; background: transparent; border: 0; }
+
+/* ---------- Secciones por categoria (vista "Todo") ---------- */
+.tg-section { margin-bottom: 2.2rem; }
+.tg-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8rem; border-bottom: 2px solid var(--tg-yellow); padding-bottom: .5rem; }
+.tg-section-head h2 { font-size: 1.15rem; font-weight: 400; margin: 0; }
+.tg-section-head h2 strong { font-weight: 800; }
+.tg-grid-section { grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); }
+.tg-more { border: 2px dashed var(--tg-border); border-radius: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .7rem; padding: 1.5rem 1rem; color: var(--tg-ink); text-align: center; font-size: .9rem; min-height: 200px; transition: background .2s, border-color .2s; }
+.tg-more .arrow { width: 3rem; height: 3rem; border-radius: 50%; background: var(--tg-yellow); display: grid; place-items: center; font-size: 1.4rem; font-weight: 800; }
+.tg-more:hover { background: #fffbe0; border-color: var(--tg-yellow-dark); color: var(--tg-ink); }
+
+/* ====================================================================
+   Comparador profesional + Armador de PC
+   ==================================================================== */
+
+/* ---------- Encabezado de seccion ---------- */
+.cmp-head { border-left: 5px solid var(--tg-yellow); padding-left: 1rem; margin: 1.5rem 0 1.4rem; }
+.cmp-head h1 { font-size: 1.7rem; }
+
+/* ---------- Panel de seleccion ---------- */
+.cmp-panel { background: var(--tg-grey); border-radius: 1rem; padding: 1.3rem 1.4rem; margin-bottom: 1.5rem; }
+
+/* ---------- Cabecera versus ---------- */
+.cmp-versus { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 1rem; margin-bottom: 1.5rem; }
+.cmp-side { background: #fff; border: 1.5px solid var(--tg-border); border-radius: 1.1rem; padding: 1.4rem 1rem; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: .15rem; }
+.cmp-side.win { border-color: var(--tg-yellow-dark); box-shadow: 0 6px 20px rgba(242, 201, 0, .22); }
+.cmp-crown { position: absolute; top: -.75rem; left: 50%; transform: translateX(-50%); background: var(--tg-ink); color: var(--tg-yellow); font-size: .68rem; font-weight: 700; padding: .2rem .7rem; border-radius: 999px; white-space: nowrap; }
+.cmp-emoji { font-size: 3rem; line-height: 1; }
+.cmp-brand { font-size: .72rem; text-transform: uppercase; letter-spacing: .6px; color: #888; font-weight: 700; }
+.cmp-name { font-weight: 700; font-size: 1rem; line-height: 1.2; }
+.cmp-score { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; margin-top: .5rem; }
+.cmp-score small { font-size: .9rem; font-weight: 600; color: #999; }
+.cmp-score-label { font-size: .72rem; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+.cmp-vs { align-self: center; font-weight: 800; color: #bbb; font-size: 1.2rem; }
+@media (max-width: 640px) {
+    .cmp-versus { grid-template-columns: 1fr; }
+    .cmp-vs { padding: .3rem 0; }
+}
+
+/* ---------- Contenedores de graficos (altura fija: evita que el canvas
+   crezca sin limite con maintainAspectRatio:false) ---------- */
+.cmp-chart { position: relative; width: 100%; height: 260px; }
+.cmp-chart-sm { height: 200px; }
+.cmp-chart-wide { height: 320px; }
+.cmp-chart > canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+@media (max-width: 575px) {
+    .cmp-chart, .cmp-chart-sm { height: 220px; }
+    .cmp-chart-wide { height: 360px; }
+}
+
+/* ---------- Tabla comparativa ---------- */
+.cmp-table th, .cmp-table td { vertical-align: middle; }
+.cmp-win { background: #fffbe0 !important; font-weight: 700; }
+.cmp-adv { display: inline-block; font-size: .72rem; font-weight: 700; color: #0a6b3b; background: #e4f8ee; border-radius: 999px; padding: .05rem .5rem; margin-left: .4rem; }
+
+/* ---------- Lista "agregar al comparador" ---------- */
+.cmp-add-list { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: .4rem; }
+.cmp-add-row { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .5rem .6rem; border: 1px solid var(--tg-border); border-radius: .7rem; }
+.cmp-add-row:hover { border-color: var(--tg-ink); }
+
+/* ---------- CTA al armador ---------- */
+.cmp-builder-cta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--tg-yellow); border-radius: 1.1rem; padding: 1.2rem 1.4rem; margin: 2rem 0 1rem; }
+
+/* ====================================================================
+   Armador de PC
+   ==================================================================== */
+.pcb-slots { display: flex; flex-direction: column; gap: .7rem; }
+.pcb-slot { display: flex; gap: .9rem; align-items: flex-start; background: #fff; border: 1.5px solid var(--tg-border); border-radius: 1rem; padding: .9rem 1rem; }
+.pcb-slot:hover { border-color: var(--tg-ink); }
+.pcb-slot-ico { font-size: 1.8rem; line-height: 1; width: 2.4rem; text-align: center; flex-shrink: 0; margin-top: .2rem; }
+.pcb-slot-main { flex: 1; min-width: 0; }
+.pcb-slot-label { font-weight: 700; font-size: .92rem; margin-bottom: .4rem; display: flex; align-items: center; gap: .5rem; }
+.pcb-req { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--tg-red); border: 1px solid var(--tg-red); border-radius: 999px; padding: .02rem .45rem; }
+.pcb-slot-note { font-size: .74rem; margin-top: .35rem; min-height: 1em; }
+.pcb-slot-note.ok { color: #0a6b3b; }
+.pcb-slot-note.warn { color: #a1001d; }
+
+/* ---------- Resumen ---------- */
+.pcb-summary { position: sticky; top: 90px; background: #fff; border: 1.5px solid var(--tg-border); border-top: 5px solid var(--tg-yellow); border-radius: 1.1rem; padding: 1.3rem; }
+.pcb-summary-head { text-align: center; margin-bottom: 1rem; }
+.pcb-summary-head .badge { font-size: .85rem; padding: .45rem .9rem; }
+.pcb-gauge { background: var(--tg-grey); border-radius: .8rem; padding: .9rem; margin-bottom: 1rem; text-align: center; }
+.pcb-gauge-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; color: #999; font-weight: 700; margin-bottom: .3rem; }
+.pcb-gauge-text { font-weight: 600; font-size: .9rem; }
+.pcb-consumo { background: var(--tg-grey); border-radius: .8rem; padding: .9rem; margin-bottom: 1rem; }
+.pcb-consumo-head { font-weight: 700; font-size: .82rem; margin-bottom: .5rem; }
+.pcb-consumo-bar { height: 10px; background: #e2e2e2; border-radius: 999px; overflow: hidden; margin-bottom: .5rem; }
+.pcb-consumo-bar > div { height: 100%; border-radius: 999px; transition: width .4s ease; }
+.pcb-fill-ok { background: var(--tg-green); }
+.pcb-fill-warn { background: var(--tg-yellow-dark); }
+.pcb-fill-bad { background: var(--tg-red); }
+.pcb-total-row { display: flex; justify-content: space-between; align-items: center; font-weight: 600; padding-top: .6rem; border-top: 1px solid var(--tg-border); }
+.pcb-total { font-size: 1.5rem; font-weight: 800; letter-spacing: -.5px; }

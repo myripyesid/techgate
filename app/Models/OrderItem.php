@@ -1,15 +1,14 @@
 <?php
+// Autor: Santiago
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Linea de detalle de un Pedido. Guarda una "foto" del producto
- * (nombre y precio) para que la factura no cambie si el producto
- * se edita o se elimina despues.
- */
+// Linea de detalle de un Pedido. Guarda una "foto" del producto
+// (nombre y precio) para que la factura no cambie si el producto
+// se edita o se elimina despues.
 class OrderItem extends Model
 {
     use HasFactory;
@@ -42,11 +41,7 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {

@@ -1,3 +1,4 @@
+{{-- Autor: Marbin --}}
 @extends('layouts.app')
 
 @section('content')
@@ -26,9 +27,20 @@
             <select name="category_id" class="form-select" id="category_id" required>
                 <option value="">Seleccione una categoría</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->getId() }}">{{ $category->getNombre() }}</option>
+                    <option value="{{ $category->getId() }}" @selected(old('category_id') == $category->getId())>{{ $category->getNombre() }}</option>
                 @endforeach
             </select>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="marca" class="form-label">Marca</label>
+                <input type="text" name="marca" class="form-control" id="marca" value="{{ old('marca') }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="modelo" class="form-label">Modelo</label>
+                <input type="text" name="modelo" class="form-control" id="modelo" value="{{ old('modelo') }}">
+            </div>
         </div>
 
         <div class="mb-3">
@@ -39,6 +51,12 @@
         <div class="mb-3">
             <label for="stock" class="form-label">Stock Inicial</label>
             <input type="number" name="stock" class="form-control" id="stock" value="{{ old('stock') }}" required>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="hidden" name="es_vendible" value="0">
+            <input type="checkbox" name="es_vendible" value="1" class="form-check-input" id="es_vendible" @checked(old('es_vendible', true))>
+            <label for="es_vendible" class="form-check-label">Disponible para la venta (desmarcar si es solo de referencia)</label>
         </div>
 
         <button type="submit" class="btn btn-success">Guardar Producto</button>

@@ -1,25 +1,29 @@
 <?php
+// Autor: Marbin
 
+use App\Http\Controllers\AlliedProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentCompatibilityController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PcBuilderController;
 use App\Http\Controllers\ProductComparatorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('products.index');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Autenticacion (solo invitados)
-|--------------------------------------------------------------------------
-*/
+// Cambio de idioma (disponible para todos, autenticados o no).
+Route::get('/idioma/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
+
+// Autenticacion (solo invitados)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -31,15 +35,12 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-/*
-|--------------------------------------------------------------------------
-| Zona autenticada (usuario y administrador)
-|--------------------------------------------------------------------------
-*/
+// Zona autenticada (usuario y administrador)
 Route::middleware('auth')->group(function () {
 
     // Catalogo (solo lectura para el usuario)
     Route::get('/productos', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/productos/{product}/ficha', [ProductController::class, 'show'])->name('products.show');
     Route::get('/categorias', [CategoryController::class, 'index'])->name('categories.index');
 
     // Perfil
@@ -47,13 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/perfil', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/perfil/contrasena', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    /*
-    |----------------------------------------------------------------------
-    | Funciones exclusivas del USUARIO
-    |----------------------------------------------------------------------
-    | Carrito de compras, pedidos, formas de pago, comparador de
-    | componentes y verificacion de compatibilidad.
-    */
+    // Funciones exclusivas del USUARIO
+    // Carrito de compras, pedidos, formas de pago, comparador de
+    // componentes y verificacion de compatibilidad.
 
     // Carrito de compras
     Route::get('/carrito', [CartController::class, 'index'])->name('cart.index');
@@ -84,13 +81,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/compatibilidad', [ComponentCompatibilityController::class, 'index'])->name('compatibility.index');
     Route::post('/compatibilidad/verificar', [ProductComparatorController::class, 'checkCompatibility'])->name('compatibility.check');
 
-    /*
-    |----------------------------------------------------------------------
-    | Funciones exclusivas del ADMINISTRADOR
-    |----------------------------------------------------------------------
-    | Alta, edicion y baja de productos y categorias, y gestion de
-    | todos los pedidos de la tienda.
-    */
+    // Arma tu PC (armador virtual): elegir componentes, validar compatibilidad
+    // en vivo y agregar todo el armado al carrito de una sola vez.
+    Route::get('/arma-tu-pc', [PcBuilderController::class, 'index'])->name('builder.index');
+    Route::post('/arma-tu-pc/evaluar', [PcBuilderController::class, 'evaluate'])->name('builder.evaluate');
+    Route::post('/arma-tu-pc/al-carrito', [PcBuilderController::class, 'addToCart'])->name('builder.add-to-cart');
+
+    // Productos aliados: consume el servicio web del equipo precedente.
+    Route::get('/productos-aliados', [AlliedProductController::class, 'index'])->name('allied.index');
+
+    // Reportes del catalogo (inversion de dependencias: PDF o CSV).
+    Route::get('/reportes/catalogo/{formato}', [ReportController::class, 'download'])
+        ->where('formato', 'pdf|csv')->name('reports.catalog');
+
+    // Funciones exclusivas del ADMINISTRADOR
+    // Alta, edicion y baja de productos y categorias, y gestion de
+    // todos los pedidos de la tienda.
     Route::middleware('admin')->group(function () {
         Route::get('/productos/nuevo', [ProductController::class, 'create'])->name('products.create');
         Route::post('/productos', [ProductController::class, 'store'])->name('products.store');

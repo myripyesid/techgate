@@ -1,4 +1,5 @@
 <?php
+// Autor: Marbin
 
 namespace App\Models;
 
@@ -9,7 +10,20 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'nombre', 'precio', 'stock'];
+    protected $fillable = [
+        'category_id', 'nombre', 'marca', 'modelo', 'lanzamiento',
+        'precio', 'precio_lanzamiento_usd', 'stock', 'es_vendible',
+        'confianza', 'especificaciones',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'es_vendible' => 'boolean',
+            'especificaciones' => 'array',
+            'precio_lanzamiento_usd' => 'decimal:2',
+        ];
+    }
 
     public function category()
     {
@@ -44,9 +58,69 @@ class Product extends Model
         return $this->save();
     }
 
+    // Un producto esta disponible para la venta si es vendible (tiene
+    // precio confirmado y no es solo de referencia) y hay stock.
     public function estaDisponible(): bool
     {
-        return $this->getStock() > 0;
+        return $this->esVendible() && $this->getStock() > 0;
+    }
+
+    public function esVendible(): bool
+    {
+        return (bool) ($this->getAttribute('es_vendible') ?? true);
+    }
+
+    // Catalogo fusionado: especificaciones tecnicas
+
+    // Devuelve todas las especificaciones (campo => valor).
+    public function getEspecificaciones(): array
+    {
+        return $this->getAttribute('especificaciones') ?? [];
+    }
+
+    // Devuelve una especificacion puntual o null si no existe.
+    public function getEspecificacion(string $campo): mixed
+    {
+        return $this->getEspecificaciones()[$campo] ?? null;
+    }
+
+    public function getMarca(): ?string
+    {
+        return $this->getAttribute('marca');
+    }
+
+    public function getModelo(): ?string
+    {
+        return $this->getAttribute('modelo');
+    }
+
+    public function getLanzamiento(): ?string
+    {
+        return $this->getAttribute('lanzamiento');
+    }
+
+    public function getPrecioLanzamiento(): ?float
+    {
+        $valor = $this->getAttribute('precio_lanzamiento_usd');
+
+        return $valor === null ? null : (float) $valor;
+    }
+
+    public function getConfianza(): ?string
+    {
+        return $this->getAttribute('confianza');
+    }
+
+    // Slug de la categoria (cpu, gpu, celular, ...). Lo usan las reglas de
+    // compatibilidad y de comparacion.
+    public function getCategorySlug(): ?string
+    {
+        return $this->getCategoria()?->getSlug();
+    }
+
+    public function scopeVendibles($query)
+    {
+        return $query->where('es_vendible', true);
     }
 
     public function aplicarDescuento(float $porcentaje): float
@@ -58,11 +132,7 @@ class Product extends Model
         return $this->getPrecio();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -135,9 +205,7 @@ class Product extends Model
         return $this->setCategoryId($categoria->getId());
     }
 
-    /**
-     * Nombre de la categoria, listo para mostrar en las vistas.
-     */
+    // Nombre de la categoria, listo para mostrar en las vistas.
     public function getNombreCategoria(): string
     {
         return $this->getCategoria()?->getNombre() ?? 'N/A';

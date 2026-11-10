@@ -1,8 +1,11 @@
 <?php
+// Autor: Marbin
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\CompatibilityService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ComponentCompatibility extends Model
 {
@@ -15,100 +18,54 @@ class ComponentCompatibility extends Model
         return $this->belongsTo(ProductComparator::class);
     }
 
-    public function evaluarCompatibilidad(Product $productoA, Product $productoB): bool
+    // Resultado completo de la verificacion: estado (ok | warn | bad | na |
+    // ninguna), mensaje y bandera "compatible". Un registro manual en
+    // product_compatibilities tiene prioridad sobre las reglas automaticas,
+    // salvo que los dos productos sean del mismo tipo.
+    public function evaluar(Product $productoA, Product $productoB): array
     {
-        // Regla principal: dos productos del mismo tipo cumplen el mismo
-        // rol (dos procesadores, dos tarjetas graficas, dos celulares,
-        // dos televisores, etc.) y por lo tanto NUNCA son compatibles,
-        // sin importar si hay un registro manual o si comparten categoria.
-        $tipoA = $this->obtenerTipoProducto($productoA);
-        $tipoB = $this->obtenerTipoProducto($productoB);
+        $servicio = app(CompatibilityService::class);
+        $automatico = $servicio->evaluar($productoA, $productoB);
 
-        if ($tipoA !== null && $tipoA === $tipoB) {
-            return false;
+        $mismoTipo = $productoA->getCategorySlug() !== null
+            && $productoA->getCategorySlug() === $productoB->getCategorySlug();
+
+        if ($mismoTipo) {
+            return $automatico;
         }
 
         $registro = $this->buscarRegistro($productoA, $productoB);
 
         if ($registro) {
-            return (bool) $registro->es_compatible;
+            $compatible = (bool) $registro->es_compatible;
+
+            return [
+                'estado' => $compatible ? 'ok' : 'bad',
+                'mensaje' => $compatible
+                    ? 'Compatibilidad confirmada por un registro manual.'
+                    : ($registro->razon_incompatibilidad ?? 'Incompatibilidad registrada sin motivo especifico.'),
+                'compatible' => $compatible,
+            ];
         }
 
-        // Sin registro manual: se asume compatibilidad entre productos
-        // de la misma categoria (p. ej. dos componentes de PC distintos).
-        return $productoA->getCategoryId() === $productoB->getCategoryId();
+        return $automatico;
+    }
+
+    public function evaluarCompatibilidad(Product $productoA, Product $productoB): bool
+    {
+        return $this->evaluar($productoA, $productoB)['compatible'];
     }
 
     public function obtenerRazonIncompatibilidad(Product $productoA, Product $productoB): ?string
     {
-        $tipoA = $this->obtenerTipoProducto($productoA);
-        $tipoB = $this->obtenerTipoProducto($productoB);
+        $resultado = $this->evaluar($productoA, $productoB);
 
-        if ($tipoA !== null && $tipoA === $tipoB) {
-            return 'Ambos productos cumplen la misma funcion (son del mismo tipo), por lo que no tiene sentido usarlos juntos.';
-        }
-
-        $registro = $this->buscarRegistro($productoA, $productoB);
-
-        if ($registro && ! $registro->es_compatible) {
-            return $registro->razon_incompatibilidad ?? 'Incompatibilidad registrada sin motivo especifico.';
-        }
-
-        if ($productoA->getCategoryId() !== $productoB->getCategoryId()) {
-            return 'Los productos pertenecen a categorias distintas.';
-        }
-
-        return null;
-    }
-
-    /**
-     * Infiere el "tipo" de un producto a partir de palabras clave en su
-     * nombre (procesador, tarjeta grafica, smartphone, televisor, etc).
-     * Devuelve null si no se reconoce ningun tipo conocido.
-     */
-    private function obtenerTipoProducto(Product $producto): ?string
-    {
-        $nombre = mb_strtolower((string) $producto->getNombre());
-
-        $tipos = [
-            'procesador' => ['procesador'],
-            'tarjeta_madre' => ['tarjeta madre'],
-            'memoria_ram' => ['memoria ram'],
-            'tarjeta_grafica' => ['tarjeta grafica', 'tarjeta gráfica'],
-            'disco_ssd' => ['disco ssd'],
-            'disco_duro' => ['disco duro'],
-            'fuente_poder' => ['fuente de poder'],
-            'gabinete' => ['gabinete'],
-            'disipador' => ['disipador'],
-            'monitor' => ['monitor'],
-            'teclado' => ['teclado'],
-            'smartphone' => ['smartphone'],
-            'laptop' => ['laptop'],
-            'audifonos' => ['audifonos', 'audífonos'],
-            'smartwatch' => ['smartwatch'],
-            'tablet' => ['tablet'],
-            'parlante' => ['parlante'],
-            'televisor' => ['televisor', 'television', 'televisión'],
-            'consola' => ['consola'],
-            'camara' => ['camara', 'cámara'],
-            'impresora' => ['impresora'],
-            'router' => ['router'],
-        ];
-
-        foreach ($tipos as $tipo => $palabrasClave) {
-            foreach ($palabrasClave as $palabra) {
-                if (str_contains($nombre, $palabra)) {
-                    return $tipo;
-                }
-            }
-        }
-
-        return null;
+        return $resultado['compatible'] ? null : $resultado['mensaje'];
     }
 
     private function buscarRegistro(Product $productoA, Product $productoB)
     {
-        return \DB::table('product_compatibilities')
+        return DB::table('product_compatibilities')
             ->where(function ($query) use ($productoA, $productoB) {
                 $query->where('product_a_id', $productoA->getId())
                       ->where('product_b_id', $productoB->getId());
@@ -120,11 +77,7 @@ class ComponentCompatibility extends Model
             ->first();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {

@@ -1,4 +1,5 @@
 <?php
+// Autor: Kevin
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'descripcion'];
+    protected $fillable = ['nombre', 'slug', 'grupo', 'descripcion'];
 
     public function products()
     {
@@ -32,11 +33,7 @@ class Category extends Model
         return $producto->save();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Getters y setters
-    |--------------------------------------------------------------------------
-    */
+    // Getters y setters
 
     public function getId(): ?int
     {
@@ -55,6 +52,31 @@ class Category extends Model
         return $this;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->getAttribute('slug');
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->setAttribute('slug', $slug);
+
+        return $this;
+    }
+
+    // pc | electronico
+    public function getGrupo(): ?string
+    {
+        return $this->getAttribute('grupo');
+    }
+
+    public function setGrupo(?string $grupo): static
+    {
+        $this->setAttribute('grupo', $grupo);
+
+        return $this;
+    }
+
     public function getDescripcion(): ?string
     {
         return $this->getAttribute('descripcion');
@@ -67,7 +89,7 @@ class Category extends Model
         return $this;
     }
 
-    /** @return \Illuminate\Database\Eloquent\Collection<int, Product> */
+    // @return \Illuminate\Database\Eloquent\Collection<int, Product>
     public function getProductos()
     {
         return $this->products()->get();
