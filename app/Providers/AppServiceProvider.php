@@ -83,7 +83,9 @@ public function register(): void
             $view->with([
                 'navCategories' => Category::orderBy('nombre')->get(),
                 'navCartCount' => $carrito ? $carrito->items->sum('cantidad') : 0,
-                'navCartTotal' => $carrito ? $carrito->calcularSubtotal() : 0,
+                'navCartTotal' => $carrito && method_exists($carrito, 'calcularSubtotal')
+                    ? call_user_func([$carrito, 'calcularSubtotal'])
+                    : 0,
                 'navClima' => app(\App\Services\WeatherService::class)->medellin(),
             ]);
         });
