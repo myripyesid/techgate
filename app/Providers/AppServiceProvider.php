@@ -10,14 +10,18 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     // Register any application services.
-    public function register(): void
+public function register(): void
     {
-        // Inversion de dependencias: por defecto, la interfaz ReportGenerator
-        // se resuelve con la implementacion CSV. El controlador puede pedir
-        // una implementacion concreta distinta (PDF) cuando lo necesite.
+        // Tu enlace anterior (si lo sigues usando en otra parte)
         $this->app->bind(
             \App\Services\Reports\ReportGenerator::class,
             \App\Services\Reports\CsvReportGenerator::class,
+        );
+
+        // La nueva línea de Inversión de Dependencias para los reportes
+        $this->app->bind(
+            \App\Contracts\ReportInterface::class, 
+            \App\Services\PdfReportService::class
         );
     }
 

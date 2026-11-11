@@ -15,6 +15,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 
 Route::get('/', function () {
     return redirect()->route('products.index');
@@ -110,4 +112,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/pedidos', [OrderController::class, 'adminIndex'])->name('orders.admin');
         Route::put('/admin/pedidos/{order}/estado', [OrderController::class, 'updateStatus'])->name('orders.status');
     });
+});
+
+
+Route::get('/api/v1/productos-en-venta', function (): JsonResponse {
+    $products = Product::where('stock', '>', 0)
+        ->get()
+        ->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'nombre' => $product->nombre,
+                'modelo' => $product->modelo,
+                'precio' => $product->precio,
+                'stock' => $product->stock,
+                'url_detalle' => route('products.show', $product->id),
+            ];
+        });
+
+    return response()->json([
+        'success' => true,
+        'data' => $products
+    ]);
 });
